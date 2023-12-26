@@ -1,0 +1,137 @@
+<section class="cont" *ngIf="_log" id="login" >
+    <div class="content-login d-flex flex-column" >
+    <section class="d-flex justify-content-center w-100 p-2">
+        <div class="btnchoice col" [class.active]="isLoginActive" (click)="toggleLogin(); _login = true; _signUp = false;">
+            <i class="pi pi-lock-open"></i> Login
+        </div>
+        <div class="btnchoice col" [class.active]="isSignUpActive" (click)="toggleSignUp(); desabilitar(); _login = false; _signUp = true;">
+            <i class="pi pi-user-plus"></i> Sign Up
+        </div>
+    </section>
+    <div class="d-flex flex-wrap " >
+    <div class=" login-console animate__animated animate__bounce p-3" *ngIf="_login" >
+        
+        <div class="w-100 d-flex justify-content-center p-2 ">
+                <img src="../../../assets/orangew.png" width="150px" height="auto"  alt="">
+        </div>
+        <form [formGroup]="loginForm"
+              class="mb-2"
+              (ngSubmit)="onSubmitLogin()">
+    
+            <div class="d-flex flex-column mt-1">
+                <label for="email">
+                    Email:
+                </label>
+                <input class="console-input"
+                       type="email"
+                       required
+                       formControlName="email"
+                       (focus)="onInputFocus()"
+                       (blur)="onInputBlur()"
+                       #email
+                       id="email"
+                       placeholder="email">
+            </div>
+    
+            <div class="d-flex flex-column mt-2" >
+                <label for="password">
+                    Password:
+                </label>
+                <input class="console-input"
+                       type="password"
+                       (focus)="onInputFocus()"
+                       (blur)="onInputBlur()"
+                       required
+                       formControlName="password"
+                       #password
+                       id="password"
+                       placeholder="****" >
+            </div>
+            <div class="p-3" >
+                <button class="btn btn-outline-warning rounded-pill btn-sm w-100"
+                        type="submit">
+                        <i class="pi pi-check"></i> Iniciar Sesión
+                </button>
+            </div>
+            <div class="d-flex justify-content-center align-items-center flex-column">
+                <span class="text-light" style="text-align: center;">
+                    Conecta con personas, crea comunidades, y resuelvan cosas juntos...
+                </span>
+                <small class="text-light p-2" > {{versionamiento}} </small>
+            </div>
+        </form>
+    
+    </div>
+    <div class=" login-console animate__animated animate__bounce p-3" *ngIf="_signUp" >
+        
+        <div class="w-100 d-flex justify-content-center p-2 ">
+                <img src="../../../assets/orangew.png" width="150px" height="auto"  alt="">
+        </div>
+        <form [formGroup]="signForm" class="" (ngSubmit)="onSubmitSignUp()">
+
+            <div class="d-flex flex-column mt-2">
+                <label for="email">
+                    Usuario:
+                </label>
+                <input class="console-input"
+                       type="text" 
+                       (focus)="onInputFocus()"
+                       (blur)="onInputBlur()"
+                       required
+                       formControlName="nombre"
+                       #nombre
+                       id="nombre"
+                       placeholder="Jean Walts ...">
+            </div>
+
+            <div class="d-flex flex-column mt-2">
+                <label for="email"> Email: </label>
+                <input class="console-input" type="email" 
+                (focus)="onInputFocus()" (blur)="onInputBlur()"
+                required formControlName="email" #email id="email" placeholder="...@email.com" >
+            </div>
+
+            <div class="d-flex flex-column mt-2" >
+                <label for="password">
+                    Password:
+                </label>
+                <input class="console-input" 
+                (focus)="onInputFocus()" (blur)="onInputBlur()"
+                type="text" required formControlName="password" #password id="password" placeholder="***" >
+            </div>
+
+            <div class="d-flex flex-column mt-2" >
+                <label for="password">
+                    Re-Password:
+                </label>
+                <input class="console-input" 
+                       type="text"
+                       (keyup)="passwordMatchValidator()"
+                       required
+                       (focus)="onInputFocus()" (blur)="onInputBlur()"
+                       formControlName="repassword"
+                       #repassword
+                       id="repassword"
+                       placeholder="***" >
+            </div>
+
+            <div class="p-3" >
+                <button class="btn btn-outline-warning rounded-pill btn-sm w-100" [disabled]="btnDis" type="submit" >
+                    <i class="pi pi-check"></i> Registrarse 
+                </button>
+            </div>
+        </form>
+        <div class="d-flex justify-content-center align-items-center flex-column">
+            <span class="text-light" style="text-align: center;">
+                Conecta con personas, crea comunidades, y resuelvan cosas juntos...
+            </span>
+            <small class="text-light p-2" > {{versionamiento}} </small>
+        </div>
+
+    </div>
+
+</div>
+</div>
+</section>
+
+

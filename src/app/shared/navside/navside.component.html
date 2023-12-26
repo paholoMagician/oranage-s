@@ -1,0 +1,23 @@
+
+<div class="navside d-flex flex-column justify-content-between" >
+    <div class="modulos">
+        <div *ngFor="let modulo of listaModulos; let i = index">
+            <div (click)="obtenerModulos(modulo)"
+                class="mod d-flex align-items-center"
+                [matTooltip]="modulo.moduleDescription"
+                matTooltipPosition="after"
+                [class.active]="activeModule === i"
+                (click)="activeModule === i ? resetActiveModule() : setActiveModule(i)">
+                <i [class]="'pi ' + modulo.icon"></i>
+                <span *ngIf="mini_navside">&nbsp; {{ modulo.moduleName }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="session">
+        <button class="btn btn-outline-dark btn-sm w-100" (click)="cerrarSession()">
+            <i class="pi pi-sign-out" ></i> Cerrar sesión
+        </button>
+    </div>
+
+</div>

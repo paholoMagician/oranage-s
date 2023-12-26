@@ -1,0 +1,117 @@
+<div class="spinner-overlay"  *ngIf="_show_spinner">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    <div class="module-works mb-2 d-flex">
+        <label for="file" style="cursor: pointer;" class="d-flex w-100">
+            <div class="imagen-perfil" [style]=" 'background-image: url('+imagenInstituto+');'" id="imperfil" ></div>
+            <div class="drive-orange p-3 mt-2 mb-2 rounded-3 d-flex flex-column w-100">
+                <div class="d-flex justify-content-between">
+                <input type="file"
+                       id="file"
+                       class="form-control form-control-sm"
+                       accept=".jpg, .jpeg, .png"
+                       (change)="onFileSelected($event)">
+                       <button class="btn btn-outline-dark d-flex align-items-center"
+                               style="width: 300px;"
+                               [disabled]="!selectedFile"
+                               (click)="uploadFile()">
+                               <i class="pi pi-upload"></i> Subir archivo
+                       </button>
+                </div>
+                <div class="d-flex justify-content-end text-dark">
+                  <div *ngIf="uploadProgress !== null">
+                     Progreso de la carga: {{ uploadProgress }}%
+                  </div>
+                  <div *ngIf="uploadMessage">
+                    {{ uploadMessage }}
+                  </div>
+                </div>
+            </div>
+        </label>
+    </div>
+    <div class="module-works mb-2 d-flex flex-column">
+        <div class="p-1">
+            <span class="text-secondary" > Crear una institución: </span>
+        </div>
+        <hr>
+        <div>
+            <form [formGroup]="institucionForm" (ngSubmit)="submit()" >
+                <div class="d-flex flex-wrap">
+                    <div class="m-1 col-2">
+                        <label class="text-secondary" for="nombreInstitucion"> Nombre de la Institucion: </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="nombreInstitucion"
+                               #nombreInstitucion
+                               id="nombreInstitucion">
+                    </div>
+                    <div class="m-1 col-2">
+                        <label class="text-secondary" for="ruc"> R.U.C.: </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="ruc"
+                               #ruc
+                               id="ruc">
+                    </div>
+                    <div class="m-1 col-2">
+                        <label class="text-secondary" for="encargado"> Encargado administrativo: </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="encargado"
+                               #encargado
+                               id="encargado">
+                    </div>
+                    <div class="m-1 col-2">
+                        <label class="text-secondary" for="numeroTelefono"> Número de teléfono: </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="numeroTelefono"
+                               #numeroTelefono
+                               id="numeroTelefono">
+                    </div>
+                    <div class="m-1 col-2">
+                        <label class="text-secondary" for="celular"> Celular: </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="celular"
+                               #celular
+                               id="celular">
+                    </div>
+                </div>
+                <div class="m-1 col">
+                    <label for="descripcion"
+                           class="text-secondary">
+                           Una Descripción sobre la institución
+                    </label>
+                    <textarea name="descripcion"
+                              class="form-control form-control-sm"
+                              #descripcion
+                              formControlName="descripcion"
+                              id="descripcion" rows="2">
+                    </textarea>
+                </div>
+                <div class="btn-settings p-1 w-100 d-flex justify-content-end " >
+                    <button type="submit" class="btn btn-outline-dark btn-sm " >
+                        <i class="pi pi-save"></i> Guardar institución
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="subworks w-100 d-flex justify-content-between mt-2">
+        <div class="wbox col-lg-3">
+            <div class="">
+
+            </div>
+        </div>
+        <div class="wbox col-lg-3">
+
+        </div>
+        <div class="wbox col-lg-3">
+
+        </div>
+    </div>
+</div>

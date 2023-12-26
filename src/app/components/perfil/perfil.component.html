@@ -1,0 +1,161 @@
+<div class="spinner-overlay"  *ngIf="_show_spinner">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    <div class="module-works mb-2 d-flex">
+        <label for="file" style="cursor: pointer;" class="d-flex w-100">
+            <div class="imagen-perfil" [style]=" 'background-image: url('+imagenPerfil+');'" id="imperfil" ></div>
+            <div class="drive-orange p-3 mt-2 mb-2 rounded-3 d-flex flex-column w-100">
+                <div class="d-flex justify-content-between">
+                <input type="file"
+                       id="file"
+                       class="form-control form-control-sm"
+                       accept=".jpg, .jpeg, .png"
+                       (change)="onFileSelected($event)">
+                       <button class="btn btn-outline-dark d-flex align-items-center"
+                               style="width: 300px;"
+                               [disabled]="!selectedFile"
+                               (click)="uploadFile()">
+                               <i class="pi pi-upload"></i> Subir archivo
+                       </button>
+                </div>
+                <div class="d-flex justify-content-end text-dark">
+                  <div *ngIf="uploadProgress !== null">
+                     Progreso de la carga: {{ uploadProgress }}%
+                  </div>
+                  <div *ngIf="uploadMessage">
+                    {{ uploadMessage }}
+                  </div>
+                </div>
+            </div>
+        </label>
+    </div>
+    <div class="module-works">
+        <div class="p-1">
+            <span class="text-secondary" > Datos personales: </span>
+        </div>
+        <hr>
+        <form [formGroup]="perfilForm" (ngSubmit)="submit()" >
+            <div class="d-flex flex-wrap">
+                <div class="m-1 col-2">
+                    <label class="text-secondary" for="nombre"> Nombre: </label>
+                    <input class="input-or form-control form-control-sm"
+                           type="text"
+                           formControlName="nombre"
+                           #nombre
+                           id="nombre">
+                </div>
+                <div class="m-1 col-2">
+                    <label class="text-secondary" for="apellido"> Apellido: </label>
+                    <input class="input-or form-control form-control-sm"
+                           type="text"
+                           formControlName="apellido"
+                           #apellido
+                           id="apellido">
+                </div>
+                <div class="m-1 col-1">
+                    <label class="text-secondary" for="edad"> Edad: </label>
+                    <input class="input-or form-control form-control-sm"
+                           type="number" min="0"
+                           formControlName="edad"
+                           #edad
+                           id="edad">
+                </div>
+                <div class="m-1 col-4">
+                    <label class="text-secondary" for="email"> Email: </label>
+                    <input class="input-or form-control form-control-sm"
+                           type="email"
+                           formControlName="email"
+                           #email
+                           id="email">
+                </div>
+                <div class="m-1 col-1">
+                    <label class="text-secondary" for="alias"> Alias: </label>
+                    <input class="input-or form-control form-control-sm"
+                           type="alias"
+                           formControlName="alias"
+                           #alias
+                           id="alias">
+                </div>
+                <div class="m-1 col-1">
+                    <label class="text-secondary"
+                           for="celular">
+                           Celular:
+                    </label>
+                    <input class="input-or form-control form-control-sm"
+                           type="celular"
+                           formControlName="celular"
+                           #celular
+                           id="celular">
+                </div>
+            </div>
+            <div class="m-1 col">
+                <label for="observacion"
+                       class="text-secondary">
+                       Una breve descripción sobre mí
+                </label>
+                <textarea name="observacion"
+                          class="form-control form-control-sm"
+                          #observacion
+                          formControlName="observacion"
+                          id="observacion" rows="3">
+                </textarea>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="m-1 col">
+                    <label for="codpais" class="text-secondary">
+                            País:
+                    </label>
+                    <select class="inpForms form-select form-select-sm w-100"
+                            formControlName="codpais"
+                            #codpais
+                            id="codpais"
+                            aria-label="">
+                            <option *ngFor="let paises of listapaises"
+                                    [value]="paises.codigo">
+                                    {{paises.nombre | titlecase }}
+                            </option>
+                    </select>
+                </div>
+                <div class="m-1 col-3">
+                    <label class="text-secondary" for="codprov"> Ciudad: </label>
+                    <input class="input-or form-control form-control-sm"
+                           type="text"
+                           formControlName="codprov"
+                           #codprov
+                           id="codprov">
+                </div>
+            </div>
+            <div class="btn-settings p-1 w-100 d-flex justify-content-end " >
+                <button type="submit" class="btn btn-outline-dark btn-sm " >
+                    <i class="pi pi-save"></i> Actualzar mi perfil
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class=" module-works mt-2">
+        <div class="text-secondary">
+            Cambiar contraseña:
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between align-items-end">
+            <div class="m-1 col-3">
+                <label class="text-secondary"
+                       for="password">
+                        Password:
+                </label>
+                <input class="input-or form-control form-control-sm"
+                       type="text"
+                       id="password"
+                       [(ngModel)]="password">
+            </div>
+            <div>
+                <button class="btn btn-outline-dark btn-sm" (click)="actualizarPassword(password)" >
+                    <i class="pi pi-lock" ></i> Actualizar password
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

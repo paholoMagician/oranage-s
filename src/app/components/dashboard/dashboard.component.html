@@ -1,0 +1,25 @@
+<div class="spinner-overlay"  *ngIf="_show_spinner">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<div class="cont container-fluid d-flex">
+<div class="p-2">
+    <app-navside (moduloSeleccionado)="recibirModuloSeleccionado($event)">
+    </app-navside>
+</div>
+<div class="p-2 w-100">
+    <div class="titlehead">
+        <div class="imagen-perfil"
+             [style]=" 'background-image: url('+imagenPerfil+');'"
+             id="imperfil">
+        </div>
+        <div>{{nombreUsuario}}</div>
+        <div><i [class]="'pi ' + icon" ></i> &nbsp; {{moduleName}}</div>
+    </div>
+    <app-perfil *ngIf="view_perfil" (imagenPerfilEmit)="recibirImagenPerfil($event)"></app-perfil>
+    <app-taskmanager *ngIf="view_task_manager"></app-taskmanager>
+    <app-cursos *ngIf="view_cursos"></app-cursos>
+</div>
+</div>

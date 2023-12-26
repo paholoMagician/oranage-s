@@ -1,0 +1,82 @@
+
+/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+html, body { height: 100vh; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgb(211, 211, 211); }
+
+.cont {
+    height: 100%;
+}
+
+label {
+    color: white;
+}
+
+.titlehead {
+    background-color: rgb(24, 43, 83);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+input {
+    width: 100%;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: transparent;
+}
+
+.login-console {
+    width: 100%;
+}
+
+
+.module-works {
+    width: 100%;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    padding: 15px;
+    border: groove 1px rgb(246, 246, 246);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+.imagen-perfil {
+    width: 100px;
+    height: 100px;
+    background-color: whitesmoke;
+    background-size: 100% 100%;
+    border-radius:  10px;
+    transition: ease all 1.5s;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.imagen-perfil:hover {
+    transition: ease all 0.5s;
+    background-size: 110% 110%;
+}
+
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    background-color: rgba($color: #000000, $alpha: 0.4);
+  }
+  
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

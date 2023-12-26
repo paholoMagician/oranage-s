@@ -1,0 +1,37 @@
+#login {
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+}
+
+.content-login {
+    background-color: rgb(24, 43, 83);
+    width: 350px;
+    box-shadow: 0px 0px 20px rgba(54, 33, 2, 0.6);
+    border-right: groove 2px rgb(255, 181, 44);
+    border-left: groove 2px rgb(255, 181, 44);
+}
+
+.btnchoice {
+    border: solid 1px orange;
+    padding: 10px;
+    color: orange;
+    transition: ease all 2s;
+    cursor: pointer;
+}
+
+.btnchoice:hover, .active {
+    border-radius: 10px;
+    transition: ease all 0.5s;
+    background-color: orange;
+    color: rgb(24, 43, 83);
+}
+
+.label {
+    color: whitesmoke !important;
+} 
+
+input {
+    color: orange;
+    border: groove 1px orange;
+}
