@@ -13,9 +13,16 @@ export class InstitucionesService {
     return this.http.post( this.url.apiurl() + 'Instituto/guardarInstituto', model );
   }
 
+  actualizarIntituto( model:any, id: number ) {
+    return this.http.put( this.url.apiurl() + 'Instituto/ActualizarInstituto/' + id, model );
+  }
+
   actualizarImgInstituto(url:string, codUser: string) {
     return this.http.get( this.url.apiurl() + 'Instituto/ActualizarImgInstituto/' + url + '/' + codUser );
   }
 
+  obtenerInstitutos(uscod:string) {
+    return this.http.get( this.url.apiurl() + 'Instituto/ObtenerInstituciones/' + uscod )
+  }
 
 }

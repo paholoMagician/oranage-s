@@ -32,6 +32,9 @@ export class InstitucionesComponent implements OnInit {
   uploadProgress: number | null = null;
   uploadMessage: string | null = null;
   imagenInstituto: any;
+  listaDeInstitutos: any = [];
+  _institutos: boolean = false;
+  action_button: string = 'Crear';
 
   public institucionForm = new FormGroup (
     {
@@ -49,42 +52,124 @@ export class InstitucionesComponent implements OnInit {
 
   constructor( private instituto: InstitucionesService, private ncrypt: EncryptService, private env: Environments, private storageService: StorageService ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.obtenerIntituto();
+  }
   
   submit() {
-    this.guardarInstitucion();
+    switch(this.action_button) {
+      case 'Crear':
+        this.guardarInstitucion();
+        break;
+      case 'Actualizar':
+        this.actualizarIntituto();
+        break;
+    }
   }
 
   modelInstituto: any = [];
   guardarInstitucion() {
-    this._show_spinner = true;
-    this.modelInstituto = {
-      nombreInstitucion: this.institucionForm.controls['nombreInstitucion'].value,
-      descripcion:       this.institucionForm.controls['descripcion'].value,
-      ruc:               this.institucionForm.controls['ruc'].value,
-      encargado:         this.institucionForm.controls['encargado'].value,
-      numeroTelefono:    this.institucionForm.controls['numeroTelefono'].value,
-      celular:           this.institucionForm.controls['celular'].value,
-      estado:            1,
-      fechaCrea:         new Date(),
-      logtipourl:        ""
-    }    
 
-    this.instituto.guardarInstitutos(this.modelInstituto).subscribe({
-      next: (x) => {
-        Toast.fire({
-          icon: 'success',
-          title: 'Instituto guardado exitosamente'
-        })
-        this._show_spinner = false;
-      }, error: (e) => {
-        Toast.fire({
-          icon: 'error',
-          title: 'Instituto no se ha podido guardadar'
-        })
-        this._show_spinner = false;
-      }
-    })
+    if ( this.institucionForm.controls['nombreInstitucion'].value == undefined || this.institucionForm.controls['nombreInstitucion'].value == null || this.institucionForm.controls['nombreInstitucion'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre de la institución vacío.'} )
+    else if ( this.institucionForm.controls['descripcion'].value == undefined || this.institucionForm.controls['descripcion'].value == null || this.institucionForm.controls['descripcion'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la descripción de la institución vacía.'} )
+    else if ( this.institucionForm.controls['ruc'].value == undefined || this.institucionForm.controls['ruc'].value == null || this.institucionForm.controls['ruc'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el R.U.C. de la institución vacío.'} )
+    else if ( this.institucionForm.controls['encargado'].value == undefined || this.institucionForm.controls['encargado'].value == null || this.institucionForm.controls['encargado'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del encargado de la institución vacío.'} )
+    else if ( this.institucionForm.controls['numeroTelefono'].value == undefined || this.institucionForm.controls['numeroTelefono'].value == null || this.institucionForm.controls['numeroTelefono'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el numero de teléfono de la institución vacío.'} )
+    else {
+      this._show_spinner = true;
+      this.modelInstituto = {
+        nombreInstitucion: this.institucionForm.controls['nombreInstitucion'].value,
+        descripcion:       this.institucionForm.controls['descripcion'].value,
+        ruc:               this.institucionForm.controls['ruc'].value,
+        encargado:         this.institucionForm.controls['encargado'].value,
+        numeroTelefono:    this.institucionForm.controls['numeroTelefono'].value,
+        celular:           this.institucionForm.controls['celular'].value,
+        estado:            1,
+        fechaCrea:         new Date(),
+        logtipourl:        ""
+      }    
+
+      this.instituto.guardarInstitutos(this.modelInstituto).subscribe({
+        next: (x) => {
+          Toast.fire({
+            icon: 'success',
+            title: 'Instituto guardado exitosamente'
+          })
+          this._show_spinner = false;
+        }, error: (e) => {
+          Toast.fire({
+            icon: 'error',
+            title: 'Instituto no se ha podido guardadar'
+          })
+          this._show_spinner = false;
+        }
+      })
+    }
+  }
+
+  actualizarIntituto() {
+    if (this.institucionForm.controls['nombreInstitucion'].value   == undefined || this.institucionForm.controls['nombreInstitucion'].value == null || this.institucionForm.controls['nombreInstitucion'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre de la institución vacío.'})
+    else if (this.institucionForm.controls['descripcion'].value    == undefined || this.institucionForm.controls['descripcion'].value       == null || this.institucionForm.controls['descripcion'].value       == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la descripción de la institución vacía.'})
+    else if (this.institucionForm.controls['ruc'].value            == undefined || this.institucionForm.controls['ruc'].value               == null || this.institucionForm.controls['ruc'].value               == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el R.U.C. de la institución vacío.'})
+    else if (this.institucionForm.controls['encargado'].value      == undefined || this.institucionForm.controls['encargado'].value         == null || this.institucionForm.controls['encargado'].value         == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del encargado de la institución vacío.'})
+    else if (this.institucionForm.controls['numeroTelefono'].value == undefined || this.institucionForm.controls['numeroTelefono'].value    == null || this.institucionForm.controls['numeroTelefono'].value    == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el numero de teléfono de la institución vacío.'})
+    else {
+      this._show_spinner = true;
+      this.modelInstituto = {
+        idintituto:        this.idInstituto,
+        nombreInstitucion: this.institucionForm.controls['nombreInstitucion'].value,
+        descripcion:       this.institucionForm.controls['descripcion'].value,
+        ruc:               this.institucionForm.controls['ruc'].value,
+        encargado:         this.institucionForm.controls['encargado'].value,
+        numeroTelefono:    this.institucionForm.controls['numeroTelefono'].value,
+        celular:           this.institucionForm.controls['celular'].value,
+        estado:            1,
+        fechaCrea:         new Date(),
+        logtipourl:        this.imagenInstituto
+      }    
+
+      this.instituto.actualizarIntituto(this.modelInstituto, this.idInstituto).subscribe({
+        next: (x) => {
+          Toast.fire({
+            icon: 'success',
+            title: 'Instituto guardado exitosamente'
+          })
+          this._show_spinner = false;
+        }, error: (e) => {
+          Toast.fire({
+            icon: 'error',
+            title: 'Instituto no se ha podido guardadar'
+          })
+          this._show_spinner = false;
+        }
+      })
+    }
+  }
+  idInstituto: number = 0;
+  catchData( data:any ) {
+    console.warn(data)
+    this.institucionForm
+        .controls['nombreInstitucion']
+        .setValue(data.nombreInstitucion);
+    this.institucionForm
+        .controls['descripcion']
+        .setValue(data.descripcion);
+    this.institucionForm
+        .controls['ruc']
+        .setValue(data.ruc);
+    this.institucionForm
+        .controls['encargado']
+        .setValue(data.encargado);
+    this.institucionForm
+        .controls['numeroTelefono']
+        .setValue(data.numeroTelefono);
+    this.institucionForm
+        .controls['celular']
+        .setValue(data.celular);
+    this.idInstituto = data.idintituto;
+    this.action_button = 'Editar';
+    this.imagenInstituto = this.env.apiUrlStoragePerfil() + data.logtipourl;
+    // this.selectedFile = data.logtipourl;
   }
 
   limpiar() {
@@ -94,9 +179,22 @@ export class InstitucionesComponent implements OnInit {
     this.institucionForm.controls['encargado'].setValue('')
     this.institucionForm.controls['numeroTelefono'].setValue('')
     this.institucionForm.controls['celular'].setValue('')
+    this.action_button = 'Crear';
   }
 
+  obtenerIntituto() {
+    const xuser: any = sessionStorage.getItem('c_c_r_u');
+    const decrypt = this.ncrypt.decryptWithAsciiSeed(xuser, this.env.seed, this.env.hashlvl);
+    this.instituto.obtenerInstitutos( decrypt ).subscribe({
+      next: (x) => {
+        this.listaDeInstitutos = x;
+      }, error: (e) => {
+        console.error(e);
+      }, complete: () => {
 
+      }
+    })
+  }
   
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -140,14 +238,11 @@ export class InstitucionesComponent implements OnInit {
       this.storageService.uploadInstituto(this.selectedFile).subscribe({
         next: (event: any) => {
           if (event.type === HttpEventType.UploadProgress) {
-            console.warn(this.selectedFile);
             this.uploadProgress = Math.round((100 * event.loaded) / event.total);
           } else if (event.type === HttpEventType.Response) {
             this.uploadMessage = 'Imagen actualizada con éxito.';
           }
-
           this._show_spinner = false;
-
         },
         error: (error) => {
           this.uploadMessage = 'Error al actualizar la imagen.';
@@ -155,7 +250,7 @@ export class InstitucionesComponent implements OnInit {
           this._show_spinner = false;
         },
         complete: () => {
-          this.link_generate = fileNameWithUnderscores; 
+          this.link_generate = fileNameWithUnderscores;
           this.imagenInstituto = this.env.apiUrlStoragePerfil()+fileNameWithUnderscores;
           this.actualizarImagenUrl(this.link_generate);
         }

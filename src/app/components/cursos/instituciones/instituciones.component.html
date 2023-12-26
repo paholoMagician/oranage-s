@@ -23,7 +23,7 @@
                 </div>
                 <div class="d-flex justify-content-end text-dark">
                   <div *ngIf="uploadProgress !== null">
-                     Progreso de la carga: {{ uploadProgress }}%
+                    Progreso de la carga: {{ uploadProgress }}%
                   </div>
                   <div *ngIf="uploadMessage">
                     {{ uploadMessage }}
@@ -32,10 +32,13 @@
             </div>
         </label>
     </div>
-    <div class="module-works mb-2 d-flex flex-column">
-        <div class="p-1">
-            <span class="text-secondary" > Crear una institución: </span>
-        </div>
+    <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn"
+         *ngIf="_institutos">
+         <div class="p-1">
+             <span class="text-secondary">
+                 Crear una institución:
+             </span>
+         </div>
         <hr>
         <div>
             <form [formGroup]="institucionForm" (ngSubmit)="submit()" >
@@ -84,7 +87,7 @@
                 <div class="m-1 col">
                     <label for="descripcion"
                            class="text-secondary">
-                           Una Descripción sobre la institución
+                           Una descripción sobre la institución
                     </label>
                     <textarea name="descripcion"
                               class="form-control form-control-sm"
@@ -93,25 +96,53 @@
                               id="descripcion" rows="2">
                     </textarea>
                 </div>
-                <div class="btn-settings p-1 w-100 d-flex justify-content-end " >
-                    <button type="submit" class="btn btn-outline-dark btn-sm " >
-                        <i class="pi pi-save"></i> Guardar institución
+                <div class="btn-settings p-1 w-100 d-flex justify-content-end">
+                    <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
+                            (click)="limpiar(); _institutos = !_institutos;">
+                            <mat-icon>cancel</mat-icon>
+                    </button>
+                    <button type="submit"
+                            class="btn btn-outline-dark btn-sm " >
+                            <i class="pi pi-save"></i> {{ action_button }} institución
                     </button>
                 </div>
             </form>
         </div>
     </div>
     <div class="subworks w-100 d-flex justify-content-between mt-2">
-        <div class="wbox col-lg-3">
-            <div class="">
-
+        <div class="wbox col-lg-5 bg-light">
+            <div class="d-flex flex-column">                
+                <div class="fs-5 d-flex align-items-center justify-content-between">
+                    <div>
+                        <mat-icon>factory</mat-icon> Instituciones creadas <strong class="fs-6">({{listaDeInstitutos.length}})</strong>
+                    </div>
+                    <div class="button-icon shadow-sm" (click)="_institutos = !_institutos; limpiar();" >
+                        <mat-icon>add</mat-icon> 
+                    </div>                    
+                </div>
+                <small class="text-secondary">
+                    Aquí podrá ver las instituciones creadas
+                </small>
+            </div>
+            <div class="lista-institucion p-1 d-flex justify-content-between align-items-center"
+                 *ngFor="let lista of listaDeInstitutos">
+                 <div>{{ lista.nombreInstitucion }}</div>
+                 <div class="d-flex">
+                    <div class="button-icon shadow-sm"
+                         (click)="_institutos = !_institutos; catchData( lista );">
+                         <mat-icon>edit</mat-icon>
+                    </div>
+                    <div class="button-icon shadow-sm">
+                        <mat-icon>delete</mat-icon>
+                    </div>
+                 </div>
             </div>
         </div>
-        <div class="wbox col-lg-3">
-
+        <div class="wbox col-lg-3 bg-light">
+            aaa
         </div>
-        <div class="wbox col-lg-3">
-
+        <div class="wbox col-lg-3 bg-light">
+            aaa
         </div>
     </div>
 </div>
