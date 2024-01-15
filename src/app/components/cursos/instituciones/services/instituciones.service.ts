@@ -22,7 +22,11 @@ export class InstitucionesService {
   }
 
   obtenerInstitutos(uscod:string) {
-    return this.http.get( this.url.apiurl() + 'Instituto/ObtenerInstituciones/' + uscod )
+    return this.http.get( this.url.apiurl() + 'Instituto/ObtenerInstituciones/' + uscod );
+  }
+
+  eliminarIntituto( idisntituto:any ) {
+    return this.http.get( this.url.apiurl() + 'Instituto/EliminarInstituto/' + idisntituto );
   }
 
 }

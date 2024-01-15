@@ -1,37 +1,10 @@
 <div class="spinner-overlay"  *ngIf="_show_spinner">
     <div class="spinner-container">
-      <mat-spinner></mat-spinner>
+        <span class="loader"></span>
     </div>
 </div>
 <div class="container-fluid p-3">
-    <div class="module-works mb-2 d-flex">
-        <label for="file" style="cursor: pointer;" class="d-flex w-100">
-            <div class="imagen-perfil" [style]=" 'background-image: url('+imagenInstituto+');'" id="imperfil" ></div>
-            <div class="drive-orange p-3 mt-2 mb-2 rounded-3 d-flex flex-column w-100">
-                <div class="d-flex justify-content-between">
-                <input type="file"
-                       id="file"
-                       class="form-control form-control-sm"
-                       accept=".jpg, .jpeg, .png"
-                       (change)="onFileSelected($event)">
-                       <button class="btn btn-outline-dark d-flex align-items-center"
-                               style="width: 300px;"
-                               [disabled]="!selectedFile"
-                               (click)="uploadFile()">
-                               <i class="pi pi-upload"></i> Subir archivo
-                       </button>
-                </div>
-                <div class="d-flex justify-content-end text-dark">
-                  <div *ngIf="uploadProgress !== null">
-                    Progreso de la carga: {{ uploadProgress }}%
-                  </div>
-                  <div *ngIf="uploadMessage">
-                    {{ uploadMessage }}
-                  </div>
-                </div>
-            </div>
-        </label>
-    </div>
+    
     <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn"
          *ngIf="_institutos">
          <div class="p-1">
@@ -41,10 +14,12 @@
          </div>
         <hr>
         <div>
-            <form [formGroup]="institucionForm" (ngSubmit)="submit()" >
+            <form [formGroup]="institucionForm" (ngSubmit)="submit()">
                 <div class="d-flex flex-wrap">
                     <div class="m-1 col-2">
-                        <label class="text-secondary" for="nombreInstitucion"> Nombre de la Institucion: </label>
+                        <label class="text-secondary" for="nombreInstitucion"> 
+                            Nombre de la Institucion:
+                        </label>
                         <input class="input-or form-control form-control-sm"
                                type="text"
                                formControlName="nombreInstitucion"
@@ -52,7 +27,9 @@
                                id="nombreInstitucion">
                     </div>
                     <div class="m-1 col-2">
-                        <label class="text-secondary" for="ruc"> R.U.C.: </label>
+                        <label class="text-secondary" for="ruc">
+                            R.U.C.:
+                        </label>
                         <input class="input-or form-control form-control-sm"
                                type="text"
                                formControlName="ruc"
@@ -60,7 +37,9 @@
                                id="ruc">
                     </div>
                     <div class="m-1 col-2">
-                        <label class="text-secondary" for="encargado"> Encargado administrativo: </label>
+                        <label class="text-secondary" for="encargado">
+                            Encargado administrativo:
+                        </label>
                         <input class="input-or form-control form-control-sm"
                                type="text"
                                formControlName="encargado"
@@ -68,7 +47,9 @@
                                id="encargado">
                     </div>
                     <div class="m-1 col-2">
-                        <label class="text-secondary" for="numeroTelefono"> Número de teléfono: </label>
+                        <label class="text-secondary" for="numeroTelefono">
+                            Número de teléfono:
+                        </label>
                         <input class="input-or form-control form-control-sm"
                                type="text"
                                formControlName="numeroTelefono"
@@ -76,7 +57,9 @@
                                id="numeroTelefono">
                     </div>
                     <div class="m-1 col-2">
-                        <label class="text-secondary" for="celular"> Celular: </label>
+                        <label class="text-secondary" for="celular">
+                            Celular:
+                        </label>
                         <input class="input-or form-control form-control-sm"
                                type="text"
                                formControlName="celular"
@@ -98,11 +81,11 @@
                 </div>
                 <div class="btn-settings p-1 w-100 d-flex justify-content-end">
                     <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
-                            (click)="limpiar(); _institutos = !_institutos;">
+                            (click)="limpiar()">
                             <mat-icon>cancel</mat-icon>
                     </button>
                     <button type="submit"
-                            class="btn btn-outline-dark btn-sm " >
+                            class="btn btn-outline-dark btn-sm">
                             <i class="pi pi-save"></i> {{ action_button }} institución
                     </button>
                 </div>
@@ -110,39 +93,154 @@
         </div>
     </div>
     <div class="subworks w-100 d-flex justify-content-between mt-2">
-        <div class="wbox col-lg-5 bg-light">
+        <div class="wbox bg-light">
             <div class="d-flex flex-column">                
                 <div class="fs-5 d-flex align-items-center justify-content-between">
-                    <div>
-                        <mat-icon>factory</mat-icon> Instituciones creadas <strong class="fs-6">({{listaDeInstitutos.length}})</strong>
+                    <div class="title">
+                        <mat-icon>factory</mat-icon> Instituciones creadas
+                        <strong class="fs-6">({{listaDeInstitutos.length}})</strong>
                     </div>
-                    <div class="button-icon shadow-sm" (click)="_institutos = !_institutos; limpiar();" >
-                        <mat-icon>add</mat-icon> 
+                    <div class="mb-2 d-flex w-50">
+                        <input class=" w-100 shadow-sm form-control rounded-pill" 
+                               fxFlex="auto" type="text"
+                               [(ngModel)]="filterInitit"
+                               (keyup)="filterInstitutos()" 
+                               #input placeholder="Búsqueda de nombre y tipo de asistencia...">
+                    </div>
+                    <div class="button-icon shadow-sm"
+                         matTooltip="Crea la información de la institución para poder acceder a las demás características de la aplicación."
+                         (click)="_institutos = !_institutos;">
+                         <mat-icon>add</mat-icon> 
                     </div>                    
                 </div>
-                <small class="text-secondary">
-                    Aquí podrá ver las instituciones creadas
-                </small>
+                <small class="text-secondary"> Aquí podrá ver las instituciones creadas </small>
             </div>
+            <div class="body-data">
+
+            
             <div class="lista-institucion p-1 d-flex justify-content-between align-items-center"
-                 *ngFor="let lista of listaDeInstitutos">
-                 <div>{{ lista.nombreInstitucion }}</div>
+                 *ngFor="let lista of listaDeInstitutos; let i = index;">
+                 <div class="d-flex align-items-center">
+                    <div [style]="'background-image: url( '+this.imagenInstituto+lista.logtipourl+' )' " class="icono" ></div> &nbsp;&nbsp;
+                    <div>
+                        <span> {{ lista.nombreInstitucion | uppercase }} </span>
+                        <br>
+                        <small class="text-secondary d-flex align-items-center"> 
+                            <div class="d-flex align-items-center" ><mat-icon> person </mat-icon> <span> {{ lista.encargado }} </span></div> &nbsp;&nbsp; 
+                            <div class="d-flex align-items-center" > <mat-icon>fax</mat-icon> <span> {{ lista.numeroTelefono }} </span></div> &nbsp;&nbsp;
+                            <div class="d-flex align-items-center" > <mat-icon>smartphone</mat-icon> <span> {{ lista.celular }} </span> </div>
+                        </small>
+                    </div>
+                 </div>
                  <div class="d-flex">
                     <div class="button-icon shadow-sm"
+                         matTooltip="Edita la información de la institución."
                          (click)="_institutos = !_institutos; catchData( lista );">
                          <mat-icon>edit</mat-icon>
                     </div>
-                    <div class="button-icon shadow-sm">
-                        <mat-icon>delete</mat-icon>
+                    &nbsp;
+                    <div class="button-icon shadow-sm"
+                         matTooltip="Editar la imagen o logotipo de la institución."
+                         (click)="openDialogImagenInstituto(lista)">
+                         <mat-icon>image</mat-icon>
+                    </div>
+                    &nbsp;
+                    <div class="button-icon shadow-sm"
+                         matTooltip="Crea y configura un curso para esta institución"
+                         (click)="openDialogCursos(lista, 0)">
+                         <mat-icon>cast_for_education</mat-icon>
+                    </div>
+                    &nbsp;
+                    <div class="button-icon shadow-sm"
+                         (click)="eliminarInstituto(lista, i)"
+                         matTooltip="Elimina la institución">
+                         <mat-icon>delete</mat-icon>
                     </div>
                  </div>
             </div>
         </div>
-        <div class="wbox col-lg-3 bg-light">
-            aaa
         </div>
-        <div class="wbox col-lg-3 bg-light">
-            aaa
+        <div class="wbox bg-light">
+            <div class="d-flex justify-content-between">
+                <div class="title d-flex align-items-center p-2">
+                    <mat-icon>cast_for_education</mat-icon> &nbsp; <div class="fs-5"> Cursos creados </div>
+                    <strong class="fs-6">({{listaDeCursos.length}})</strong>
+                </div>
+                <div class="mb-2 d-flex w-50">
+                    <input class=" w-100 shadow-sm form-control rounded-pill" 
+                           fxFlex="auto" type="text"
+                           [(ngModel)]="filterCli"
+                           (keyup)="filterCliente()" 
+                           #input placeholder="Búsqueda de nombre y tipo de asistencia...">
+                </div>
+            </div>
+            <small class="text-secondary p-1">
+                Aquí podrás ver los cursos creados.
+            </small>
+            <div class="body-data">
+                <ul class="list-group">
+                    <li *ngFor="let cursos of listaDeCursos; let i = index;" class="list-group-item">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center">
+                                <span> <strong> {{cursos.nombre}} </strong> &nbsp; 
+                                </span> / <span class="text-primary" > &nbsp; {{ cursos.nombreInstitucion }} </span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-column">
+                                    <small class="text-secondary d-flex justify-content-between m-1">
+                                        <span> Fecha apertura de inscripción: </span> 
+                                        <span class="data-box">
+                                            <strong style="color: rgb(255, 204, 0);"> {{ cursos.fechainscripIni | date: 'dd-MM-yyyy' }} </strong>
+                                        </span>
+                                    </small>
+                                    <small class="text-secondary d-flex justify-content-between m-1"> 
+                                        <span> Fecha cierre de inscripción </span> 
+                                        <span class="data-box">
+                                            <strong style="color: rgb(255, 204, 0);" > {{ cursos.fechainscripFin | date: 'dd-MM-yyyy' }} </strong>
+                                        </span>
+                                    </small>
+                                    <small class="text-secondary d-flex justify-content-between m-1"> 
+                                        <span> Fecha inicial del curso: </span> 
+                                        <span class="data-box">
+                                            <strong style="color: rgb(140, 255, 0);" > {{ cursos.fechaini | date: 'dd-MM-yyyy' }} </strong>
+                                        </span>
+                                    </small>
+                                    <small class="text-secondary d-flex justify-content-between m-1"> 
+                                        <span> Fecha final del curso: </span> 
+                                        <span class="data-box">
+                                            <strong style="color: rgb(140, 255, 0);" > {{ cursos.fechafin | date: 'dd-MM-yyyy' }} </strong> 
+                                        </span>
+                                    </small>
+                                </div>
+                                <div class="text-secondary d-flex flex-column">
+                                    <span> {{ cursos.horaini }} - {{ cursos.horafin }} </span>
+                                    <span> {{cursos.modalidad}} </span>
+                                    <div class="d-flex align-items-center ">
+                                        <div>
+                                            <span> Días faltantes: </span>
+                                        </div>
+                                        <div class="day-box">
+                                            <strong style="color: rgb(255, 204, 0);"> {{ cursos.diasFaltantes }} </strong>     
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center m-1">
+                                        <div>
+                                            <span> Días faltantes: </span>
+                                        </div>
+                                        <div class="day-box">
+                                            <strong style="color: rgb(140, 255, 0);"> {{ cursos.diasFaltantesCurso }} </strong>     
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-icon shadow-sm" (click)="openDialogCursos(cursos, 1)"
+                                     matTooltip="Edita la información del curso.">
+                                     <mat-icon>edit</mat-icon>
+                                </div>
+                            </div>
+                        </div>                        
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

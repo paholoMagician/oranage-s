@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit, OnChanges {
   view_messenger:    boolean = false;
   view_config:       boolean = false;
   view_cursos:       boolean = false;
+  view_estudiantes:  boolean = false;
 
   nombreUsuario: string = '';
 
@@ -59,26 +60,37 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_perfil = false;
         this.view_task_manager = true;
         this.view_cursos = false;
+        this.view_estudiantes = false;
         break;
       case 2:
         this.view_perfil = false;
         this.view_task_manager = false;
         this.view_cursos = false;
+        this.view_estudiantes = false;
         break;
       case 3:
         this.view_perfil = true;
         this.view_task_manager = false;
         this.view_cursos = false;
+        this.view_estudiantes = false;
         break;
       case 4:
         this.view_perfil = false;
         this.view_task_manager = false;
         this.view_cursos = false;
+        this.view_estudiantes = false;
         break;      
       case 5:
         this.view_perfil = false;
         this.view_task_manager = false;
         this.view_cursos = true;
+        this.view_estudiantes = false;
+        break;      
+      case 1005:
+        this.view_perfil = false;
+        this.view_task_manager = false;
+        this.view_cursos = false;
+        this.view_estudiantes = true;
         break;      
     }
 

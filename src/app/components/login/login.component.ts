@@ -27,8 +27,8 @@ const Toast = Swal.mixin({
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  isLoginActive: boolean = false;
+  _show_spinner:  boolean = false;
+  isLoginActive:  boolean = false;
   isSignUpActive: boolean = false;
 
   publicIpAddress: string | null = null;
@@ -104,6 +104,8 @@ export class LoginComponent implements OnInit {
   response:any=[];
   loginUser() {
 
+    this._show_spinner = true;
+
     this.modelLogin = {
       "email":    this.loginForm.controls['email'].value,
       "password": this.loginForm.controls['password'].value,
@@ -117,9 +119,20 @@ export class LoginComponent implements OnInit {
         console.log('RESPUESTA OK');
         console.log(x);
         this.response = x;
+        this._show_spinner = false;
+        Toast.fire({
+          icon: 'success',
+          title: '¡Bienvenido!',
+        })
       }, error: (e) => {
         console.error(e);
         this.response = e;
+        this._show_spinner = false;
+        Toast.fire({
+          icon: 'error',
+          title: 'Credenciales incorrectas intentalo de nuevo...',
+          footer: 'O contacta con el proveedor del sistema. www.orangeapp.como/tickets'
+        })
       },complete: ()=>{
         const cryptCuser: any = this.ncrypt.encryptWithAsciiSeed( this.response.coduser, this.env.seed, this.env.hashlvl );
         const cryptemail: any = this.ncrypt.encryptWithAsciiSeed(this.response.email, this.env.seed, this.env.hashlvl)

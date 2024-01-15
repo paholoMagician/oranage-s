@@ -1,3 +1,9 @@
+<div class="spinner-overlay"  *ngIf="_show_spinner">
+    <div class="spinner-container">
+        <span class="loader"></span>
+    </div>
+</div>
+
 <section class="cont" *ngIf="_log" id="login" >
     <div class="content-login d-flex flex-column" >
     <section class="d-flex justify-content-center w-100 p-2">
@@ -116,8 +122,9 @@
             </div>
 
             <div class="p-3" >
-                <button class="btn btn-outline-warning rounded-pill btn-sm w-100" [disabled]="btnDis" type="submit" >
-                    <i class="pi pi-check"></i> Registrarse 
+                <button class="btn btn-outline-warning rounded-pill btn-sm w-100"
+                        [disabled]="btnDis" type="submit" >
+                        <i class="pi pi-check"></i> Registrarse 
                 </button>
             </div>
         </form>

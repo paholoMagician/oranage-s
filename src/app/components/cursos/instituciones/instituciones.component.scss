@@ -1,3 +1,29 @@
 .lista-institucion {
     border-bottom: solid 1px gray;
 }
+
+.data-box {
+    background-color: #444;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.day-box {
+    background-color: #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+}
+
+.wbox {
+    width: 48%;
+    height: 90vh;
+}
+
+.body-data {
+    height: 900px;
+    overflow-y: auto;
+}

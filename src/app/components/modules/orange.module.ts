@@ -129,6 +129,9 @@ import { PerfilComponent } from "../perfil/perfil.component";
 import { TaskmanagerComponent } from "../taskmanager/taskmanager.component";
 import { CursosComponent } from "../cursos/cursos.component";
 import { InstitucionesComponent } from "../cursos/instituciones/instituciones.component";
+import { ModalImgInstitucionesComponent } from "../cursos/instituciones/modal-img-instituciones/modal-img-instituciones.component";
+import { ModalCursosComponent } from "../cursos/instituciones/modal-cursos/modal-cursos.component";
+import { EstudiantesComponent } from "../cursos/estudiantes/estudiantes.component";
 
 @NgModule({
     declarations: [
@@ -137,7 +140,10 @@ import { InstitucionesComponent } from "../cursos/instituciones/instituciones.co
       PerfilComponent,
       TaskmanagerComponent,
       CursosComponent,
-      InstitucionesComponent
+      InstitucionesComponent,
+      ModalImgInstitucionesComponent,
+      ModalCursosComponent,
+      EstudiantesComponent
     ],
     imports: [
       CommonModule,
@@ -268,8 +274,10 @@ import { InstitucionesComponent } from "../cursos/instituciones/instituciones.co
       PerfilComponent,
       TaskmanagerComponent,
       CursosComponent,
-      InstitucionesComponent
-    ] })
+      InstitucionesComponent,
+      EstudiantesComponent
+    ]
+  })
 
 
 export class OrangeModule { }

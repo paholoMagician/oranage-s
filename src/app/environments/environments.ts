@@ -58,6 +58,11 @@ export class Environments implements OnInit {
         const envstorage:string = this.apiUrl+'perfil/';
         return envstorage;
     }
+    
+    apiUrlStorageIntituto(): string {
+        const envstorage:string = this.apiUrl+'instituto/';
+        return envstorage;
+    }
 
     apiUrlHub(): string {
         const envHub: string = this.apiUrl+'hubs/';

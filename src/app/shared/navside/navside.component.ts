@@ -11,6 +11,8 @@ import { Environments } from 'src/app/environments/environments';
   styleUrls: ['./navside.component.scss']
 })
 export class NavsideComponent implements OnInit {
+
+  _show_spinner: boolean = false;
   
   @Output() moduloSeleccionado = new EventEmitter<any>();
   
@@ -27,7 +29,6 @@ export class NavsideComponent implements OnInit {
 
   ngOnInit(): void {
       this.modulos();
-
   }
 
   obtenerModulos(modulos: any) {
@@ -40,8 +41,13 @@ export class NavsideComponent implements OnInit {
   }
 
   cerrarSession() {
-    this.login.closeSession();
-    this.login.validate();
+    this._show_spinner = true;
+    
+    setTimeout(() => {
+      this._show_spinner = false;
+      this.login.closeSession();
+      this.login.validate();      
+    }, 1500);
   }
 
   resetActiveModule() {

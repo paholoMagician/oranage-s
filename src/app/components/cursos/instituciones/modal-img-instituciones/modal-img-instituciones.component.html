@@ -1,0 +1,30 @@
+<div class="p2">
+    <div class="module-works d-flex animate__animated animate__bounceIn" >
+        <label for="file" style="cursor: pointer;" class="d-flex w-100">
+            <div class="imagen-perfil" [style]=" 'background-image: url('+imagenInstituto+');'" id="imperfil" ></div>
+            <div class="drive-orange p-3 mt-2 mb-2 rounded-3 d-flex flex-column w-100">
+                <div class="d-flex justify-content-between">
+                <input type="file"
+                       id="file"
+                       class="form-control form-control-sm"
+                       accept=".jpg, .jpeg, .png"
+                       (change)="onFileSelected($event)">
+                       <!-- *ngIf="show_update_img" -->
+                       <button class="btn btn-outline-dark d-flex align-items-center"
+                               style="width: 300px;"
+                               (click)="uploadFile()">
+                               <i class="pi pi-upload"></i> Subir archivo
+                       </button>
+                </div>
+                <div class="d-flex justify-content-end text-dark">
+                  <div *ngIf="uploadProgress !== null">
+                    Progreso de la carga: {{ uploadProgress }}%
+                  </div>
+                  <div *ngIf="uploadMessage">
+                    {{ uploadMessage }}
+                  </div>
+                </div>
+            </div>
+        </label>
+    </div>
+</div>
