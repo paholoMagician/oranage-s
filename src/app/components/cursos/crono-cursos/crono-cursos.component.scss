@@ -1,0 +1,72 @@
+.calendario {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 190px);
+  gap: 10px;
+}
+
+.dia {
+  width: 190px;
+  height: 190px;
+  border: 1px solid #b9b9b9;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  background-color: #f9f9f9;
+
+}
+
+.contain-curso {
+  overflow-y: auto;
+  height: 150px;
+}
+
+/* Barra de desplazamiento */
+.contain-curso::-webkit-scrollbar{
+  width: 5px;
+  background-color: #6a593400;
+  border-radius: 20px;
+}
+
+.contain-curso::-webkit-scrollbar:window-inactive {
+  display: none;
+}
+
+.contain-curso::-webkit-scrollbar-thumb  {
+  background-color: rgb(200, 135, 22);
+  border-radius: 6px; 
+}
+
+.curso {
+  padding: 5px;
+  display:         flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items:     start;
+  border-bottom:   dashed 1px gray;
+  margin: 3px;
+  font-size: 10pt;
+}
+
+.numero {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.nombre {
+  font-size: 18px;
+  color: #555;
+}
+
+select {
+  margin: 10px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+label {
+  margin-right: 10px;
+  font-size: 16px;
+}

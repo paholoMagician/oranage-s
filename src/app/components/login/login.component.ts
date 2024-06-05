@@ -26,11 +26,14 @@ const Toast = Swal.mixin({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
 export class LoginComponent implements OnInit {
+  show_msj: boolean = false;
+  color_msj: string = '#F06133'
   _show_spinner:  boolean = false;
   isLoginActive:  boolean = false;
   isSignUpActive: boolean = false;
-
+  text_mmsj: string = '...';
   publicIpAddress: string | null = null;
   _log:boolean     = true;
   _login:boolean   = true;
@@ -39,6 +42,8 @@ export class LoginComponent implements OnInit {
   msjSignUp:string = '';
   modelUbicacion: any = [];
   modelUser: any   = [];
+  modelLogin:any   = [];
+  response:any     = [];
 
   versionamiento: string = '';
 
@@ -100,8 +105,6 @@ export class LoginComponent implements OnInit {
     this.isLoginActive = false;
   }
   
-  modelLogin:any = [];
-  response:any=[];
   loginUser() {
 
     this._show_spinner = true;
@@ -274,14 +277,27 @@ export class LoginComponent implements OnInit {
     return this.tokeng;
   }
 
-
   passwordMatchValidator() {
-    const password = this.signForm.controls['password'].value;
-    const repassword = this.signForm.controls['repassword'].value;
-    if (password === repassword) {
-      this.btnDis = false;
-    } else {
+    let password:   any = this.signForm.controls['password']  .value;
+    let repassword: any = this.signForm.controls['repassword'].value;
+    if (password === repassword && password.length > 4) {
+      this.btnDis   = false;
+      this.show_msj = true;
+      setTimeout(() => {
+        this.show_msj = false;
+      }, 2000);
+      this.text_mmsj = 'Las contraseñas son correctas.';
+      this.color_msj = '#7FD353';
+    } else if( password.length <= 4 ) {
+      this.show_msj = true;
+      this.text_mmsj = 'La longitud de esta contraseña no puede ser menor a 5 caracteres!';
+      this.color_msj = '#F5E221';
+    }
+    else {
       this.btnDis = true;
+      this.show_msj = true;
+      this.text_mmsj = 'Las contraseñas deben coincidir.';
+      this.color_msj = '#F06133';
     }
   }
 

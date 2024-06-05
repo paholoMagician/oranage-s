@@ -20,22 +20,19 @@ export class StorageService {
       reportProgress: true,
       responseType: 'json'
     });
-
-    return this.http.request(req);
-    
+    return this.http.request(req);    
   }
+  
   uploadFilePerfil(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
-
     const req = new HttpRequest('POST', `${this.baseUrl}/uploadPerfil`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
-
-    return this.http.request(req);
-    
+    return this.http.request(req);  
   }
+
   uploadInstituto(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
@@ -48,6 +45,9 @@ export class StorageService {
     return this.http.request(req);
     
   }
+
+
+  
 
 
 }

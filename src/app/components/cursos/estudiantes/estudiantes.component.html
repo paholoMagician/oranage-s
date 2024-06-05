@@ -6,89 +6,183 @@
 <div class="container-fluid p-3">
     
     <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn">
-        <div class="p-1">
+        <div class="p-1 d-flex justify-content-between">
             <span class="text-secondary">
                 Crear estudiante:
             </span>
+            <div class="enlace">
+                <button class="btn btn-primary btn-sm d-flex align-items-center">
+                    <mat-icon>link</mat-icon> Compartir enlace 
+                </button>
+           </div>
         </div>
-       <hr>
-       <div>
-           <form [formGroup]="estudianteForm" (ngSubmit)="submit()">
-               <div class="d-flex flex-wrap">
-                   <div class="m-1 col-4">
-                       <label class="text-secondary" for="nombre"> 
-                           Nombres del estudiante:
-                       </label>
-                       <input class="input-or form-control form-control-sm"
-                              type="text"
-                              formControlName="nombre"
-                              #nombre
-                              id="nombre">
-                   </div>
-                   <div class="m-1 col-2">
-                       <label class="text-secondary" for="cedula">
-                           Cédula:
-                       </label>
-                       <input class="input-or form-control form-control-sm"
-                              type="text"
-                              formControlName="cedula"
-                              #cedula
-                              id="cedula">
-                   </div>
-                   <div class="m-1 col-1">
-                       <label class="text-secondary" for="edad">
-                           Edad:
-                       </label>
-                       <input class="input-or form-control form-control-sm"
-                              type="number"
-                              formControlName="edad"
-                              #edad
-                              id="edad">
-                   </div>
-                   <div class="m-1 col-2">
-                    <label class="text-secondary" for="telefono">
-                         Telefono:
+        <hr>
+        <div>
+           <form [formGroup]="estudianteForm" 
+                 (ngSubmit)="submit()">
+                <div class="d-flex flex-column">
+                    <div class="m-1 col">
+                        <label class="text-secondary"
+                               for="nombre">
+                               Escoge un curso para añadir al estudiante:
+                        </label>
+                        <select class="inpForms form-select w-100"
+                                formControlName="curso" #curso id="curso">
+                                <option *ngFor="let curso of listaDeCursos"
+                                        [value]="curso.id">
+                                        <span>
+                                            {{curso.nombre | titlecase}}
+                                        </span>
+                                        &nbsp; / &nbsp;
+                                        <small class="text-secondary">
+                                             {{curso.nombreInstitucion | titlecase}}
+                                        </small>
+                                </option>
+                        </select>
+                    </div>
+                    <div class="d-flex flex-wrap">
+                        <div class="m-1 col-4">
+                            <label class="text-secondary" for="nombre">
+                                Nombres del estudiante:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="nombre"
+                                   #nombre
+                                   id="nombre">
+                        </div>
+                        <div class="m-1 col-2">
+                            <label class="text-secondary" for="cedula">
+                                Cédula:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="cedula"
+                                   #cedula
+                                   id="cedula">
+                        </div>
+                        <div class="m-1 col-1">
+                            <label class="text-secondary" for="edad">
+                                Edad:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="number"
+                                   formControlName="edad"
+                                   #edad
+                                   id="edad">
+                        </div>
+                        <div class="m-1 col-2">
+                            <label class="text-secondary" for="telefono">
+                                Telefono:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="telefono"
+                                   #telefono
+                                   id="telefono">
+                        </div>
+                        <div class="m-1 col-4">
+                            <label class="text-secondary" for="email">
+                                Email:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="email"
+                                   #email
+                                   id="email">
+                        </div>
+                    </div>
+                </div>
+                <div class="m-1 col">
+                    <label for="observacion"
+                           class="text-secondary">
+                           Una breve descripción:
                     </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="text"
-                           formControlName="telefono"
-                           #telefono
-                           id="telefono">
-                   </div>
-                   <div class="m-1 col-4">
-                       <label class="text-secondary" for="email">
-                            Email:
-                       </label>
-                       <input class="input-or form-control form-control-sm"
-                              type="text"
-                              formControlName="email"
-                              #email
-                              id="email">
-                   </div>
-               </div>
-               <div class="m-1 col">
-                   <label for="observacion"
-                          class="text-secondary">
-                          Una breve descripción:
-                   </label>
-                   <textarea name="observacion"
-                             class="form-control form-control-sm"
-                             #observacion
-                             formControlName="observacion"
-                             id="observacion" rows="2">
-                   </textarea>
-               </div>
-               <div class="btn-settings p-1 w-100 d-flex justify-content-end">
-                   <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
-                           (click)="limpiar()">
-                           <mat-icon>cancel</mat-icon>
-                   </button>
-                   <button type="submit"
-                           class="btn btn-outline-dark btn-sm">
-                           <i class="pi pi-save"></i> {{ action_button }} Estudiante
-                   </button>
-               </div>
+                    <textarea name="observacion"
+                              class="form-control form-control-sm"
+                              #observacion
+                              formControlName="observacion"
+                              id="observacion" rows="2">
+                    </textarea>
+                </div>
+                <div class="btn-settings p-1 w-100 d-flex justify-content-end">
+                    <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
+                            (click)="limpiar(); cancel();">
+                            <mat-icon>cancel</mat-icon>
+                    </button>
+                    <button type="submit"
+                            class="btn btn-outline-dark btn-sm">
+                            <i class="pi pi-save"></i> {{ action_button }} Estudiante
+                    </button>
+                </div>
            </form>
-       </div>
+        </div>
     </div>
+
+    <div class="module-works" >
+
+        <div></div>
+        <div class="table-responsive">
+            <table class="table table-secondary align-middle" >
+                <thead class="bg-dark text-light" >
+                    <th>
+                        Nombre Estudiante
+                    </th>
+                    <th>
+                        Cédula
+                    </th>
+                    <th>
+                        Celular
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Curso
+                    </th>
+                    <th>
+                        
+                    </th>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let estudiante of listaEstudiantes">
+                        <td>
+                            {{estudiante.nombreEstudiante}}
+                        </td>
+                        <td>
+                            {{estudiante.cedula}}
+                        </td>
+                        <td>
+                            {{estudiante.telefonoEstudiante}}
+                        </td>
+                        <td>
+                            {{estudiante.emailEstudiante}}
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span>
+                                    {{estudiante.nombreCurso}}
+                                </span> 
+                                <small class="text-secondary">
+                                    {{ estudiante.nombreInstitucion }}
+                                </small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="button-icon shadow-sm" (click)="catchData(estudiante)" >
+                                    <mat-icon>edit</mat-icon>
+                                </div>
+                                <div class="button-icon shadow-sm">
+                                    <mat-icon>delete</mat-icon>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
 </div>

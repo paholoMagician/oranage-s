@@ -7,11 +7,11 @@
     
     <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn"
          *ngIf="_institutos">
-         <div class="p-1">
+        <div class="p-1">
              <span class="text-secondary">
                  Crear una institución:
              </span>
-         </div>
+        </div>
         <hr>
         <div>
             <form [formGroup]="institucionForm" (ngSubmit)="submit()">
@@ -178,64 +178,96 @@
                 Aquí podrás ver los cursos creados.
             </small>
             <div class="body-data">
-                <ul class="list-group">
-                    <li *ngFor="let cursos of listaDeCursos; let i = index;" class="list-group-item">
+                <ul class="list-group" style="height: 78vh; overflow-y: auto;" >
+                    <li *ngFor="let cursos of listaDeCursos; let i = index;"
+                        class="list-group-item shadow-sm m-1">
                         <div class="d-flex flex-column">
-                            <div class="d-flex align-items-center">
-                                <span> <strong> {{cursos.nombre}} </strong> &nbsp; 
-                                </span> / <span class="text-primary" > &nbsp; {{ cursos.nombreInstitucion }} </span>
+                            <div class="d-flex align-items-center justify-content-between"  >
+                                <div>
+                                    <span> <strong> {{cursos.nombre}} </strong> &nbsp;
+                                    </span> / <span class="text-primary" > &nbsp; {{ cursos.nombreInstitucion }} </span>
+                                </div>
+                                <div class="btn-settings d-flex" >
+                                    <div class="button-icon shadow-sm" (click)="openDialogCursos(cursos, 1)"
+                                         matTooltip="Edita la información del curso.">
+                                         <mat-icon>edit</mat-icon>
+                                    </div>
+                                    <div class="button-icon shadow-sm"
+                                         matTooltip="Elimina el curso.">
+                                         <mat-icon>delete</mat-icon>
+                                    </div>
+                                </div>
                             </div>
+                            <hr>
                             <div class="d-flex justify-content-between">
                                 <div class="d-flex flex-column">
                                     <small class="text-secondary d-flex justify-content-between m-1">
-                                        <span> Fecha apertura de inscripción: </span> 
+                                        <span> Fecha apertura de inscripción: </span>
                                         <span class="data-box">
                                             <strong style="color: rgb(255, 204, 0);"> {{ cursos.fechainscripIni | date: 'dd-MM-yyyy' }} </strong>
                                         </span>
                                     </small>
-                                    <small class="text-secondary d-flex justify-content-between m-1"> 
-                                        <span> Fecha cierre de inscripción </span> 
+                                    <small class="text-secondary d-flex justify-content-between m-1">
+                                        <span> Fecha cierre de inscripción </span>
                                         <span class="data-box">
                                             <strong style="color: rgb(255, 204, 0);" > {{ cursos.fechainscripFin | date: 'dd-MM-yyyy' }} </strong>
                                         </span>
                                     </small>
-                                    <small class="text-secondary d-flex justify-content-between m-1"> 
-                                        <span> Fecha inicial del curso: </span> 
+                                    <small class="text-secondary d-flex justify-content-between m-1">
+                                        <span> Fecha inicial del curso: </span>
                                         <span class="data-box">
                                             <strong style="color: rgb(140, 255, 0);" > {{ cursos.fechaini | date: 'dd-MM-yyyy' }} </strong>
                                         </span>
                                     </small>
-                                    <small class="text-secondary d-flex justify-content-between m-1"> 
-                                        <span> Fecha final del curso: </span> 
+                                    <small class="text-secondary d-flex justify-content-between m-1">
+                                        <span> Fecha final del curso: </span>
                                         <span class="data-box">
-                                            <strong style="color: rgb(140, 255, 0);" > {{ cursos.fechafin | date: 'dd-MM-yyyy' }} </strong> 
+                                            <strong style="color: rgb(140, 255, 0);" > {{ cursos.fechafin | date: 'dd-MM-yyyy' }} </strong>
+                                        </span>
+                                    </small>
+                                    <small  class="text-secondary d-flex justify-content-between m-1">
+                                        <span> Horarios: </span>
+                                        <span>
+                                            <strong> {{ cursos.horaInicial }} - {{ cursos.horaFinal }} </strong>
                                         </span>
                                     </small>
                                 </div>
                                 <div class="text-secondary d-flex flex-column">
                                     <span> {{ cursos.horaini }} - {{ cursos.horafin }} </span>
-                                    <span> {{cursos.modalidad}} </span>
-                                    <div class="d-flex align-items-center ">
+                                    <span>  Modalidad de asistencia: <strong class="text-primary"> {{cursos.modalidad}} </strong> </span>
+                                    <div class="d-flex align-items-center justify-content-between m-1">
                                         <div>
-                                            <span> Días faltantes: </span>
+                                            <span> Días pago: </span>
                                         </div>
                                         <div class="day-box">
-                                            <strong style="color: rgb(255, 204, 0);"> {{ cursos.diasFaltantes }} </strong>     
+                                            <strong style="color: rgb(255, 204, 0);"> {{ cursos.diasFaltantesIncrip }} </strong>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center m-1">
+                                    <div class="d-flex align-items-center justify-content-between m-1">
                                         <div>
-                                            <span> Días faltantes: </span>
+                                            <span> Días curso: </span>
                                         </div>
                                         <div class="day-box">
                                             <strong style="color: rgb(140, 255, 0);"> {{ cursos.diasFaltantesCurso }} </strong>     
                                         </div>
                                     </div>
-                                </div>
-                                <div class="button-icon shadow-sm" (click)="openDialogCursos(cursos, 1)"
-                                     matTooltip="Edita la información del curso.">
-                                     <mat-icon>edit</mat-icon>
-                                </div>
+                                    <div class="d-flex align-items-center justify-content-between m-1">
+                                        <div>
+                                            <span> Matrícula: </span>
+                                        </div>
+                                        <div class="">
+                                            <strong > $ {{ cursos.valormatricula | number : '1.2-2' }} </strong>     
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between m-1">
+                                        <div>
+                                            <span> Cuotas: </span>
+                                        </div>
+                                        <div class="">
+                                            <strong > $ {{ cursos.pagoperiodico | number : '1.2-2' }} </strong>     
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
                         </div>                        
                     </li>

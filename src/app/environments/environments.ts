@@ -10,9 +10,11 @@ export class Environments implements OnInit {
     public version: string = 'V 1.1.2'
     readonly seed: number = 10;
     readonly hashlvl: number = 20; 
+    // http://localhost:9080
+    private apiUrl: any = 'http://localhost:9080/'
+    // private apiUrl: any = 'https://08549b20f27b.ngrok.app/';
 
-    public temasPrincipalApp: any = [
-        {   
+    public temasPrincipalApp: any = [{   
             "name_theme":          "theme_app_1",
             "color_fondo":         "background: #454440 ;",
             "color_texto":         "#F0F0F0",
@@ -23,12 +25,9 @@ export class Environments implements OnInit {
             "color_button_bg":     "#505050",
             "color_button_texto":  "#E4F2F4",
             "color_shadows":       "0px 7px 15px rgba(0, 0, 0, 0.5)"
-        }
-    ]
+        }]
 
     constructor( private http: HttpClient ) {}
-    private apiUrl: any = 'http://localhost:9080/'
-    // private apiUrl: any = 'https://08549b20f27b.ngrok.app/';
 
     ngOnInit() {
         this.obtenerApiDB();

@@ -31,14 +31,16 @@ export class LoginService {
     return this.http.post( this.url.apiurl() + 'Usuario/guardarUsuario', model );
   }
 
-  guardarPerfil(model:any[]) {
-    return this.http.post( this.url.apiurl() + 'Perfil/guardarPerfil', model );
-  }
+
 
   closeSession() {
     sessionStorage.removeItem('c_e_r_m');
     sessionStorage.removeItem('c_c_r_u');
     sessionStorage.removeItem('c_n_r_a');
+  }
+
+  guardarPerfil(model:any[]) {
+    return this.http.post( this.url.apiurl() + 'Perfil/guardarPerfil', model );
   }
 
   crearCuenta( usercod:string, ccia:string, tcuenta:string ) {

@@ -73,21 +73,21 @@
         <div class="w-100 d-flex justify-content-center p-2 ">
                 <img src="../../../assets/orangew.png" width="150px" height="auto"  alt="">
         </div>
-        <form [formGroup]="signForm" class="" (ngSubmit)="onSubmitSignUp()">
-
+        <form [formGroup]="signForm" class=""
+              (ngSubmit)="onSubmitSignUp()">
             <div class="d-flex flex-column mt-2">
                 <label for="email">
                     Usuario:
                 </label>
                 <input class="console-input"
-                       type="text" 
+                       type="text"
                        (focus)="onInputFocus()"
                        (blur)="onInputBlur()"
                        required
                        formControlName="nombre"
                        #nombre
                        id="nombre"
-                       placeholder="Jean Walts ...">
+                       placeholder="Jean Walts...">
             </div>
 
             <div class="d-flex flex-column mt-2">
@@ -119,6 +119,12 @@
                        #repassword
                        id="repassword"
                        placeholder="***" >
+            </div>
+
+            <div class="m-2 animate__animated animate__backInLeft"  *ngIf="show_msj">
+                <div class="text-message rounded-2 shadow p-2" [style]=" 'background: ' + color_msj + '; boder:solid 1px whitesmoke;' ">
+                    {{ text_mmsj }}
+                </div>
             </div>
 
             <div class="p-3" >

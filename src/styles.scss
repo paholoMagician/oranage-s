@@ -4,6 +4,9 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
+@import '~@angular/material/prebuilt-themes/indigo-pink.css'; // O importa el tema que desees
+
+
 html, body { height: 100vh; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgb(211, 211, 211); }
 
@@ -68,6 +71,7 @@ input {
     transition: ease all 0.5s;
     background-size: 110% 110%;
 }
+
 
 .spinner-overlay {
     position: absolute;
@@ -171,4 +175,41 @@ input {
     background-size: 100% 100%;
     border-radius: 10%;
     background-repeat: no-repeat;
+}
+
+
+/* Cambiar el fondo del mat-stepper */
+.mat-stepper {
+  background-color: #ffffff; /* Cambia el color de fondo a tu preferencia */
+}
+
+/* Cambiar el color del texto dentro del mat-stepper */
+.mat-step-label {
+  color: #000000; /* Cambia el color del texto a tu preferencia */
+}
+
+/* Cambiar el fondo del mat-step activo */
+.mat-step-header[aria-selected="true"] {
+  background-color: #b8b8b8; /* Cambia el color de fondo a tu preferencia */
+}
+
+/* Cambiar el color del texto del mat-step activo */
+.mat-step-header[aria-selected="true"] .mat-step-label {
+  color: #1d1d1d; /* Cambia el color del texto a tu preferencia */
+}
+
+/* Cambiar el fondo de los botones del mat-stepper */
+.mat-stepper-horizontal .mat-stepper-horizontal-line {
+  background-color: #d9d9d9; /* Cambia el color de fondo a tu preferencia */
+}
+
+/* Cambiar el color del texto de los botones del mat-stepper */
+.mat-stepper-horizontal .mat-stepper-next,
+.mat-stepper-horizontal .mat-stepper-previous {
+  color: #ffffff; /* Cambia el color del texto a tu preferencia */
+}
+
+/* Cambiar el color del ícono de los botones del mat-stepper */
+.mat-stepper-horizontal .mat-stepper-icon {
+  color: #ffffff; /* Cambia el color del ícono a tu preferencia */
 }

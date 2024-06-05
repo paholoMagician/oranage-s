@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { DashboardComponent } from "../dashboard/dashboard.component";
-import { CommonModule } from "@angular/common";
+import { CommonModule, registerLocaleData } from "@angular/common";
 
 // Import PrimeNG modules
 import { AccordionModule } from 'primeng/accordion';
@@ -115,7 +115,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import {DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -132,6 +132,15 @@ import { InstitucionesComponent } from "../cursos/instituciones/instituciones.co
 import { ModalImgInstitucionesComponent } from "../cursos/instituciones/modal-img-instituciones/modal-img-instituciones.component";
 import { ModalCursosComponent } from "../cursos/instituciones/modal-cursos/modal-cursos.component";
 import { EstudiantesComponent } from "../cursos/estudiantes/estudiantes.component";
+import localeEs from '@angular/common/locales/es';
+
+/**Para cambiar el lenguaje de la fecha a español */
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from "@angular/material-moment-adapter";
+import { CronoCursosComponent } from "../cursos/crono-cursos/crono-cursos.component";
+
+// Registra el idioma español latino
+registerLocaleData(localeEs, 'es');
 
 @NgModule({
     declarations: [
@@ -143,7 +152,8 @@ import { EstudiantesComponent } from "../cursos/estudiantes/estudiantes.componen
       InstitucionesComponent,
       ModalImgInstitucionesComponent,
       ModalCursosComponent,
-      EstudiantesComponent
+      EstudiantesComponent,
+      CronoCursosComponent
     ],
     imports: [
       CommonModule,
@@ -245,6 +255,7 @@ import { EstudiantesComponent } from "../cursos/estudiantes/estudiantes.componen
       MatBadgeModule,
       MatBottomSheetModule,
       MatButtonModule,
+      MatDatepickerModule,
       MatButtonToggleModule,
       MatCardModule,
       MatCheckboxModule,
@@ -275,8 +286,16 @@ import { EstudiantesComponent } from "../cursos/estudiantes/estudiantes.componen
       TaskmanagerComponent,
       CursosComponent,
       InstitucionesComponent,
-      EstudiantesComponent
-    ]
+      EstudiantesComponent,
+      CronoCursosComponent
+    ],
+    providers: [
+      // Configura el idioma para el datepicker
+      { provide: MAT_DATE_LOCALE, useValue: 'es' },
+      { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+      { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+      // Otros proveedores
+    ],
   })
 
 

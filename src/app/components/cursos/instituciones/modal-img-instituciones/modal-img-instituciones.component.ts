@@ -21,7 +21,8 @@ export class ModalImgInstitucionesComponent implements OnInit {
   imagenInstituto: any;
   show_update_img: boolean = false;
   idInstituto: number = 0;
-  constructor(private storageService: StorageService, public dialogRef: MatDialogRef<InstitucionesComponent>,private env: Environments, @Inject(MAT_DIALOG_DATA) public data: any,private instituto: InstitucionesService,) {}
+  constructor(private storageService: StorageService, 
+    public dialogRef: MatDialogRef<InstitucionesComponent>,private env: Environments, @Inject(MAT_DIALOG_DATA) public data: any,private instituto: InstitucionesService,) {}
   
 
   ngOnInit(): void {

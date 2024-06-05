@@ -8,15 +8,20 @@
 
     <div class="p-2">
         <span class="text-secondary fs-3">
-            Crear un curso para <span class="text-primary" > {{this.nombreInstitucion | uppercase}} </span>
+            Crear un curso para <span class="text-primary" > <strong> {{this.nombreInstitucion | uppercase}} </strong> </span>
         </span>
     </div>
     <hr>
-    <div>
-        <form [formGroup]="cursosForm" (ngSubmit)="submit()">
+    <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+        {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+      </button> -->
+      <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="cursosFormDatosIdentificativos">
+           <form [formGroup]="cursosFormDatosIdentificativos">
+            <ng-template matStepLabel>Datos indentificativos del curso:</ng-template>
             <div class="d-flex">
                 <div class="m-1 col-4">
-                    <label class="text-secondary"
+                    <label 
                            for="nombre"> 
                            Nombre del curso:
                     </label>
@@ -27,7 +32,7 @@
                            id="nombre">
                 </div>
                 <div class="m-1 col-7">
-                    <label class="text-secondary"
+                    <label 
                            for="desccripcion"> 
                            Descripción del curso:
                     </label>
@@ -37,135 +42,184 @@
                            #desccripcion
                            id="desccripcion">
                 </div>
+                
             </div>
-            <hr>
-            <div class="d-flex mb-2">
-                <div class="m-1" style="width: 70px;">
-                    <label class="text-secondary" for="capacidad"> 
-                        Capacidad:
-                    </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="number"
-                           formControlName="capacidad"
-                           #capacidad
-                           id="capacidad">
-                </div>
-                <div class="m-1" style="width: 130px;">
-                    <label class="text-secondary" for="horaini"> 
-                        Hora Inicial:
-                    </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="time"
-                           formControlName="horaini"
-                           #horaini
-                           id="horaini">
-                </div>
-                <div class="m-1" style="width: 130px;">
-                    <label class="text-secondary" for="horaini"> 
-                        Hora Final:
-                    </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="time"
-                           formControlName="horafin"
-                           #horafin
-                           id="horafin">
-                </div>
-                <div class="m-1 col-2">
-                    <label class="text-secondary" for="fechaini"> 
-                        Fecha inicial:
-                    </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="date"
-                           formControlName="fechaini"
-                           #fechaini
-                           id="fechaini">
-                </div>
-                <div class="m-1 col-2">
-                    <label class="text-secondary" for="fechafin"> 
-                        Fecha final:
-                    </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="date"
-                           formControlName="fechafin"
-                           #fechafin
-                           id="fechafin">
-                </div>
-                <div class="m-1" style="width: 70px;">
-                    <label class="text-secondary" for="campo2"> 
-                        Matrícula:
-                    </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="number"
-                           formControlName="campo2"
-                           #campo2
-                           id="campo2">
-                </div>
-                <div class="m-1" style="width: 70px;">
-                    <label class="text-secondary" for="campo2"> 
-                        Mensualidad:
-                    </label>
-                    <input class="input-or form-control form-control-sm"
-                           type="number"
-                           formControlName="valor"
-                           #valor
-                           id="valor">
-                </div>
+            <div class="d-flex flex-column m-1">
+                <label for="observacion" >Observación:</label>
+                <textarea class="form-control" formControlName="observacion" #observacion id="observacion"></textarea>
             </div>
-            <hr>
-            <div class="d-flex flex-column" >
-                <div class="mb-2">
-                    Establece fecha inicial y límite de inscripción a este curso.
-                </div>
-                <div class="d-flex justify-content-between">
-                    <div class="m-1 col-2">
-                        <label class="text-secondary"
-                               for="fechainscripIni"> 
-                               Fecha de inscripción inicial:
-                        </label>
-                        <input class="input-or form-control form-control-sm"
-                               type="date"
-                               formControlName="fechainscripIni"
-                               #fechainscripIni
-                               id="fechainscripIni">
-                    </div>
-                    <div class="m-1 col-2">
-                        <label class="text-secondary" for="fechainscripFin">
-                            Fecha de inscripción final:
-                        </label>
-                        <input class="input-or form-control form-control-sm"
-                               type="date"
-                               formControlName="fechainscripFin"
-                               #fechainscripFin
-                               id="fechainscripFin">
-                    </div>
-                    <div style="color: #444;" class="d-flex flex-column">
-                        <label class="text-secondary">Tipo de Curso:</label>
-                        <div class="d-flex ">
-                          <label class="text-secondary d-flex m-1">
-                              Online
-                            <input type="radio" formControlName="tipo" value="1">
-                          </label>
-                          <label class="text-secondary d-flex m-1">
-                              Presencial
-                            <input type="radio" formControlName="tipo" value="2">
-                          </label>
-                          <label class="text-secondary d-flex m-1">
-                              Semipresencial
-                            <input type="radio" formControlName="tipo" value="3">
-                          </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex flex-column mb-3">
-                    <label for="observacion" class="text-secondary">Observación:</label>
-                    <textarea class="form-control" formControlName="observacion" #observacion id="observacion"></textarea>
-                </div>
+            <div class="d-flex justify-content-end">
+              <button mat-button class="m-1" matStepperNext color="accent">Siguiente</button>
             </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <button class="btn btn-primary d-flex align-items-center" type="submit">
-                    <mat-icon>done</mat-icon> <span> {{action_button}} curso </span>
-                </button>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="dateForm">
+          <form [formGroup]="dateForm">
+            <ng-template matStepLabel>Fecha, capacidad y tipo de asistencia:</ng-template>
+            <div class="d-flex justify-content-between align-items-center flex-wrap " >
+              <div class="m-1" >
+                <label class="text-secondary" for="capacidad"> 
+                    <strong> Capacidad de estudiantes: </strong>
+                </label>
+                <input class="input-or form-control p-2"
+                       type="number"
+                       placeholder="0"
+                       formControlName="capacidad"
+                       #capacidad
+                       id="capacidad">
+              </div>
+              <div class="m-1 d-flex flex-column">
+                 <label class="p-1"> 
+                      <strong> Rango de fecha para la inscripción del curso: </strong>
+                 </label>
+                 <mat-form-field>
+                   <mat-label>Rango de fechas</mat-label>
+                   <mat-date-range-input [formGroup]="dateForm"
+                       [rangePicker]="picker">
+                       <input matStartDate formControlName="fechaMatriculaInicio" placeholder="Start date">
+                       <input matEndDate formControlName="fechaMatriculaFin"      placeholder="End date">
+                   </mat-date-range-input>
+                   <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                   <mat-date-range-picker #picker></mat-date-range-picker>               
+                 </mat-form-field>
+              </div>
+              <div class="m-1 d-flex flex-column">
+                 <label class="p-1">
+                      <strong> Rango de fecha para el comienzo del curso: </strong>
+                 </label>
+                 <mat-form-field>
+                   <mat-label>Rango de fechas</mat-label>
+                   <mat-date-range-input
+                        [formGroup]="dateForm" 
+                        [rangePicker]="picker2">
+                        <input matStartDate
+                               formControlName="fechaCursoInicio"
+                               placeholder="Start date">
+                        <input matEndDate
+                               formControlName="fechaCursoFin"
+                               placeholder="End date">
+                   </mat-date-range-input>
+                   <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                   <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                   <mat-date-range-picker #picker2></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+              <div>
+                <label class="text-secondary">
+                  <strong>Hora Inicial:</strong>
+                </label>
+                <input type="time" class="form-control" formControlName="horaInicio" #horaInicio>
+              </div>
+              <div>
+                <label class="text-secondary">
+                  <strong>Hora Final:</strong>
+                </label>
+                <input type="time" class="form-control" formControlName="horaFinal" #horaFinal>
+              </div>
+              <div>
+                <label class="text-secondary">
+                  <strong>  Tipo de asistencia al curso: </strong>
+                </label>
+                <div class="d-flex">
+                  <label class="text-secondary d-flex m-1" for="1">
+                    <strong> Online </strong>
+                  </label>
+                  <input type="radio" name="asistencia" formControlName="asistencia" id="1" value="1">
+                  <label class="text-secondary d-flex m-1" for="2">
+                    <strong> Presencial </strong>
+                  </label>
+                  <input type="radio" name="asistencia" formControlName="asistencia" id="2" value="2">
+                  <label class="text-secondary d-flex m-1" for="3">
+                    <strong> Semipresencial </strong>
+                  </label>
+                  <input type="radio" name="asistencia" formControlName="asistencia" id="3" value="3">
+                </div>
+              </div>
             </div>
+            <div class="d-flex justify-content-end m-1" >
+              <button mat-button matStepperPrevious color="primary">
+                atrás
+              </button>
+              <button mat-button matStepperNext color="accent">
+                siguiente
+              </button>
+            </div>
+
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="pagoForm">
+          <form [formGroup]="pagoForm">
+          <ng-template matStepLabel>Otros ajustes - Pagos:</ng-template>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="m-1" >
+              <label class="text-secondary" for="matricula"> 
+                  <strong> Matrícula: </strong>
+              </label>
+              <input class="input-or form-control p-2"
+                     type="number"
+                     placeholder="0"
+                     formControlName="matricula"
+                     #matricula
+                     style="width: 120px;"
+                     id="matricula">
+            </div>
+            <div class="m-1 d-flex flex-column">
+               <label class="p-1" for="pago_periodico">  
+                    <strong> Pagos periódicos: </strong>
+               </label>
+               <input class="input-or form-control p-2"
+                      type="number"
+                      placeholder="0"
+                      formControlName="pago_periodico"
+                      #pago_periodico
+                      style="width: 120px;"
+                      id="pago_periodico">
+            </div>
+            <div>
+              <label class="text-secondary">
+                <strong>Tipo de periodicidad del pago:</strong>
+              </label>
+              <div class="d-flex ">
+                <select class="form-select"
+                        formControlName="periodicidad_pagos"
+                        #periodicidad_pagos
+                        id="periodicidad_pagos"
+                        aria-label="Default select example" >
+                        <option value="1"> Diario     </option>
+                        <option value="2"> Semanal    </option>
+                        <option value="3"> Mensual    </option>
+                        <option value="4"> Bimensual  </option>
+                        <option value="5"> Trimestral </option>
+                        <option value="6"> Semestral  </option>
+                        <option value="7"> Anual      </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column col-6">
+              <label> <strong> Observación: </strong></label>
+              <div class="d-flex">
+                <input  class="form-control " formControlName="observacion_valores" #observacion_valores  id="observacion_valores" >
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end m-1" >
+            <button mat-button matStepperPrevious color="primary">
+              atrás
+            </button>
+            <!-- <button mat-button matStepperNext color="accent">
+              siguiente
+            </button> -->
+          </div>
         </form>
+        </mat-step>
+      </mat-stepper>
+    <div>
+        <div class="d-flex justify-content-end align-items-center">
+            <button class="btn btn-primary d-flex align-items-center" type="button" (click)="submit()" >
+                <mat-icon>done</mat-icon> <span> {{action_button}} curso </span>
+            </button>
+        </div>
     </div>
 </div>

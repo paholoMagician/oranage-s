@@ -9,9 +9,9 @@ import { waitForAsync } from '@angular/core/testing';
 import { ModalImgInstitucionesComponent } from './modal-img-instituciones/modal-img-instituciones.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCursosComponent } from './modal-cursos/modal-cursos.component';
+import { CursosService } from './modal-cursos/services/cursos.service';
 
 import Swal from 'sweetalert2'
-import { CursosService } from './modal-cursos/services/cursos.service';
 const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
@@ -30,7 +30,7 @@ const Toast = Swal.mixin({
   styleUrls: ['./instituciones.component.scss']
 })
 export class InstitucionesComponent implements OnInit {
-  
+  filterInitit:string = '';
   filterCli:string = '';
   _show_spinner:boolean = false;
   link_generate:any;
@@ -80,6 +80,7 @@ export class InstitucionesComponent implements OnInit {
   }
   
   submit() {
+
     switch(this.action_button) {
       case 'Crear':
         this.guardarInstitucion();
@@ -88,6 +89,7 @@ export class InstitucionesComponent implements OnInit {
         this.actualizarIntituto();
         break;
     }
+
   }
 
   guardarInstitucion() {
@@ -134,6 +136,7 @@ export class InstitucionesComponent implements OnInit {
         }
       })
     }
+
   }
 
   actualizarIntituto() {
@@ -188,7 +191,6 @@ export class InstitucionesComponent implements OnInit {
     }
   }
 
-
   eliminarInstituto( data:any, index:number ) {
     Swal.fire({
       title: "¿Estás seguro?",
@@ -204,7 +206,6 @@ export class InstitucionesComponent implements OnInit {
           next:(x) => {
             Swal.fire({
               title: "Instituto eliminado",
-              // text: "Your file has been deleted.",
               icon: "success"
             });  
           }, error: (e) => {
@@ -214,9 +215,7 @@ export class InstitucionesComponent implements OnInit {
               footer:"#del-in-001",
               icon: "error"
             });
-
             console.error(e);
-
           },
           complete: () => {
             this.listaDeInstitutos.splice(index, 1);
@@ -244,36 +243,49 @@ export class InstitucionesComponent implements OnInit {
   }
 
   obtenerCursos(data: any, type: number) {
-    this.curso.obtenerCursos(data, type).subscribe({
-      next: (x) => {
-        this.listaDeCursos = x;
-        this.listaDeCursosGhost = x;
-  
-        // Calcular la diferencia en días y agregarla a cada curso
-        this.listaDeCursos.forEach((curso: any) => {
-          const fechaInicio = new Date(curso.fechainscripIni);
-          const fechaFin = new Date(curso.fechainscripFin);
-          const diferenciaDias = Math.ceil((fechaFin.getTime() - fechaInicio.getTime()) / (1000 * 60 * 60 * 24));
+    this.curso.obtenerCursos(data, type).subscribe(
+      {
+        next: (x) => {
+          this.listaDeCursos = x;
+          this.listaDeCursosGhost = x;
+        
+          this.listaDeCursos.forEach((curso: any) => {
+            curso.diasFaltantesIncrip = this.actualizarDiferenciaDias(new Date(curso.fechainscripIni), new Date(curso.fechainscripFin));
+            curso.diasFaltantesCurso = this.actualizarDiferenciaDias(new Date(curso.fechaini), new Date(curso.fechafin));
+          });
+        
+        }, complete: () => {
+        
+          this.listaDeCursos.forEach((element: any) => {
 
-          const fechaInicioCurso = new Date(curso.fechaini);
-          const fechaFinCurso = new Date(curso.fechafin);
-          const diferenciaDiasCurso = Math.ceil((fechaFinCurso.getTime() - fechaInicioCurso.getTime()) / (1000 * 60 * 60 * 24));
+            if (element.tipo == 1)      element.modalidad = 'Online';
+            else if (element.tipo == 2) element.modalidad = 'Presencial';
+            else if (element.tipo == 3) element.modalidad = 'Semi Presencial';
 
-          curso.diasFaltantes = diferenciaDias;
-          curso.diasFaltantesCurso = diferenciaDiasCurso;
-        });
-  
-        console.warn(this.listaDeCursos);
-      }, complete: () => {
-        this.listaDeCursos.filter((element: any) => {
-          if (element.tipo == 1) element.modalidad = 'Online';
-          else if (element.tipo == 2) element.modalidad = 'Presencial';
-          else if (element.tipo == 3) element.modalidad = 'Semi Presencial';
-        })
+          });
+        
+          console.log('this.listaDeCursos');
+          console.log(this.listaDeCursos);
+        
+        }
       }
-    })
-  }
+    );
   
+    // Actualiza las diferencias cada 24 horas
+    setInterval(() => {
+      
+      this.listaDeCursos.forEach((curso: any) => {
+        curso.diasFaltantesIncrip = this.actualizarDiferenciaDias(new Date(curso.fechainscripIni), new Date(curso.fechainscripFin));
+        curso.diasFaltantesCurso = this.actualizarDiferenciaDias(new Date(curso.fechaini), new Date(curso.fechafin));
+      });
+      // 24 horas en milisegundos
+      }, 24 * 60 * 60 * 1000);
+
+    }
+  
+  private actualizarDiferenciaDias(fechaInicio: Date, fechaFin: Date): number {
+    return Math.ceil((fechaFin.getTime() - fechaInicio.getTime()) / (1000 * 60 * 60 * 24));
+  }  
 
   openDialogImagenInstituto(data:any): void {
 
@@ -283,7 +295,7 @@ export class InstitucionesComponent implements OnInit {
       data: data,
     });
 
-    dialogRef.afterClosed().subscribe( result => {
+    dialogRef.afterClosed().subscribe( (result:any) => {
       this.obtenerIntituto();
     });
 
@@ -324,13 +336,12 @@ export class InstitucionesComponent implements OnInit {
     this.institucionForm.controls['celular'].setValue('');
     this.action_button   = 'Crear';
     this.show_update_img = false;
-    this._institutos     = false; 
+    this._institutos     = false;
   }
 
   obtenerIntituto() {
     const xuser: any = sessionStorage.getItem('c_c_r_u');
     const decrypt = this.ncrypt.decryptWithAsciiSeed(xuser, this.env.seed, this.env.hashlvl);
-
     this.instituto.obtenerInstitutos( decrypt ).subscribe({
       next: (x) => {
         this.listaDeInstitutos = x;
@@ -354,7 +365,6 @@ export class InstitucionesComponent implements OnInit {
       this.isImageSelected = false;
     }
   }
-
 
   actualizarImagenUrl(url:string) {
     this._show_spinner = true;
@@ -414,7 +424,6 @@ export class InstitucionesComponent implements OnInit {
     );
   }
 
-  filterInitit:string = '';
   filterInstitutos () {
     this.listaDeInstitutos = this.listaDeInstitutosGhost.filter((item:any) => 
       item.nombreInstitucion.toLowerCase().includes(this.filterInitit.toLowerCase()) ||

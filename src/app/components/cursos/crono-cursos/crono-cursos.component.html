@@ -1,0 +1,52 @@
+
+<div class="spinner-overlay"  *ngIf="_show_spinner">
+    <div class="spinner-container">
+        <span class="loader"></span>
+    </div>
+</div>
+<div class="container-fluid p-3">
+    
+    <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn">
+        <div class="p-1 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <span class="text-secondary d-flex justify-content-start align-items-center">
+                    <mat-icon>event</mat-icon> <span> Crear cronograma de actividades para el curso: </span>
+                </span>
+            </div>
+            <div>
+              <label for="mes" class="text-secondary" >Mes:</label>
+              <select id="mes"
+                      [(ngModel)]="mes"
+                      (change)="onMesChange($event)">
+                      <option *ngFor="let mes of meses" [value]="mes.value">
+                        {{ mes.name }}
+                      </option>
+              </select>
+            
+              <label for="anio" class="text-secondary">Año:</label>
+              <select id="anio"
+                      [(ngModel)]="anio"
+                      (change)="onAnioChange($event)">
+                      <option *ngFor="let anio of anios" [value]="anio">
+                        {{ anio }}
+                      </option>
+              </select>
+            </div>
+          </div>  
+          <div class="calendario rounded-2 shadow-sm">
+            <div *ngFor="let dia of dias" class="dia">
+              <div class="d-flex justify-content-between w-100 p-2 "   >
+                <div class="numero">{{ dia.num }}</div>
+                <div class="nombre">{{ dia.nombre }}</div>
+              </div>
+              <div class="contain-curso" >
+                <div *ngFor="let curso of dia.cursos; let i = index;" class="curso" [style]="'background: ' + curso.color+';'">
+                  <div class="nombre-curso"> <small> {{i}}.-</small> {{ curso.nombre }}</div>
+                  <div class="nombre-institucion">{{ curso.nombreInstitucion }}</div>
+                </div>
+              </div>
+            </div>
+          </div>   
+    </div>
+</div>

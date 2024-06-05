@@ -4,12 +4,12 @@
     </div>
 </div>
 
-<div class="cont container-fluid d-flex">
-<div class="p-2">
+<div class="cont container-fluid d-flex justify-content-between">
+<div class="p-2" style="height: 100vh; width: 200px;">
     <app-navside (moduloSeleccionado)="recibirModuloSeleccionado($event)">
     </app-navside>
 </div>
-<div class="p-2 w-100">
+<div class="p-2 w-100 " style="height: 100vh; overflow-y: auto;">
     <div class="titlehead">
         <div class="imagen-perfil"
              [style]=" 'background-image: url('+imagenPerfil+');'"
@@ -22,5 +22,6 @@
     <app-taskmanager *ngIf="view_task_manager"></app-taskmanager>
     <app-cursos *ngIf="view_cursos"></app-cursos>
     <app-estudiantes *ngIf="view_estudiantes"></app-estudiantes>
+    <app-crono-cursos *ngIf="view_calendar"></app-crono-cursos>
 </div>
 </div>
