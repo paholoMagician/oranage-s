@@ -25,4 +25,9 @@ export class SharedService {
   }
 
 
+  delLogicEntity( estado: string, codentity: string, tipo: string ) {
+    return this.http.get( this.env.apiurl() + 'General/logicDelete/' + estado + '/' + codentity + '/' + tipo );
+  }
+
+
 }

@@ -3,20 +3,78 @@
         <span class="loader"></span>
     </div>
 </div>
+
+
+
 <div class="container-fluid p-3">
     
+    <div class="title module-works mb-2" *ngIf="show_no_administrer" >
+
+        <span class="fs-4 d-flex justify-content-between" >
+            <span> FORMULARIO DE REGISTRO PARA EL CURSO DE </span> <span class="text-primary" > <strong> " {{curso_detect | uppercase }} " </strong> </span> 
+        </span>
+    </div>
+    <div class="title module-works mb-2" *ngIf="show_no_administrer" >
+
+        <div class="fs-5 d-flex justify-content-between">
+            <span> Detalles técnicos: </span>
+            <span class="text-secondary" style="font-size: 13pt;"> Fecha fin de la inscripción: <strong class="text-primary"> {{ fechainscripFin_curso | date: 'dd-MM-yyyy' }} </strong> </span>
+            <span class="text-secondary" style="font-size: 13pt;">
+                <span class="text-secondary" style="font-size: 13pt;"> Tiempo en días - horas - minutos - segundos: <strong class="text-primary">{{ tiempoRestante }}</strong></span>
+            </span>
+        </div>
+        <hr>
+        <div class="p-2 shadow rounded-1 " style="border: dashed 1px gray; background-color: rgb(56, 56, 56);">
+            <div class="text-light p-1 fs-6 mb-1" style="border-bottom: solid 1px rgb(200, 200, 200);">
+                <span> Modalidad del curso: </span> 
+                <span class="text-warning">
+                    <strong>{{ modalidad_curso | uppercase }}</strong>
+                </span>
+            </div>
+            <div class="text-light p-1 fs-6 mb-1" style="border-bottom: solid 1px rgb(180, 180, 180);">
+                <span> Institución: </span>
+                <span class="text-warning">
+                    <strong>{{ institucion_curso | uppercase }}</strong>
+                </span>
+            </div>
+            <div class="text-light p-1 fs-6 mb-1" style="border-bottom: solid 1px rgb(180, 180, 180);">
+                <span>Fecha inicio del curso: </span>
+                <span class="text-warning">
+                    <strong> {{ fechaini_curso | date: 'dd-MM-yyyy' }} </strong>
+                </span>
+            </div>
+            <div class="text-light p-1 fs-6 mb-1" style="border-bottom: solid 1px rgb(180, 180, 180);">
+                <span>Fecha final del curso: </span> <span class="text-warning">
+                <strong> {{ fechafin_curso | date: 'dd-MM-yyyy' }} </strong> </span>
+            </div>
+            <div class="text-light p-1 fs-6 mb-1" style="border-bottom: solid 1px rgb(180, 180, 180);">
+                <span>Hora inicial del curso: </span>
+                <span class="text-warning">
+                    <strong> {{ horaInicial_curso }} </strong>
+                </span>
+            </div>
+            <div class="text-light p-1 fs-6 mb-1" style="border-bottom: solid 1px rgb(180, 180, 180);">
+                <span>Hora final del curso: </span>
+                <span class="text-warning">
+                    <strong> {{ horafinal_curso }} </strong> 
+                </span>
+            </div>
+        </div>
+    
+    </div>
+
     <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn">
-        <div class="p-1 d-flex justify-content-between">
+        <div class="p-1 d-flex justify-content-between" *ngIf="show_administrer">
             <span class="text-secondary">
                 Crear estudiante:
             </span>
             <div class="enlace">
-                <button class="btn btn-primary btn-sm d-flex align-items-center">
+                <button class="btn btn-primary btn-sm d-flex align-items-center" (click)="redirectToForm()">
                     <mat-icon>link</mat-icon> Compartir enlace 
                 </button>
-           </div>
-        </div>
-        <hr>
+            </div>
+          </div>
+        <hr *ngIf="show_administrer">
         <div>
            <form [formGroup]="estudianteForm" 
                  (ngSubmit)="submit()">
@@ -37,7 +95,7 @@
                                         <small class="text-secondary">
                                              {{curso.nombreInstitucion | titlecase}}
                                         </small>
-                                </option>
+                                </option> 
                         </select>
                     </div>
                     <div class="d-flex flex-wrap">
@@ -119,9 +177,23 @@
         </div>
     </div>
 
-    <div class="module-works" >
+    <div class="module-works" *ngIf="show_administrer" >
 
-        <div></div>
+        
+        <div class="d-flex justify-content-between">
+            <div class="title d-flex align-items-center p-2">
+                <mat-icon>cast_for_education</mat-icon> &nbsp; <div class="fs-5"> Cursos creados </div>
+                <strong class="fs-6">({{listaDeCursos.length}})</strong>
+            </div>
+            <div class="mb-2 d-flex w-50">
+                <input class=" w-100 shadow-sm form-control rounded-pill" 
+                       fxFlex="auto" type="text"
+                       [(ngModel)]="filterEstud"
+                       (keyup)="filterEstudiante()" 
+                       #input placeholder="Búsqueda de nombre y tipo de asistencia...">
+            </div>
+        </div>
+        
         <div class="table-responsive">
             <table class="table table-secondary align-middle" >
                 <thead class="bg-dark text-light" >
@@ -145,35 +217,35 @@
                     </th>
                 </thead>
                 <tbody>
-                    <tr  *ngFor="let estudiante of listaEstudiantes">
-                        <td>
+                    <tr  *ngFor="let estudiante of listaEstudiantes; let i = index;"  >
+                        <td *ngIf=" estudiante.campoB != 'inactivo'">
                             {{estudiante.nombreEstudiante}}
                         </td>
-                        <td>
+                        <td *ngIf=" estudiante.campoB != 'inactivo'">
                             {{estudiante.cedula}}
                         </td>
-                        <td>
+                        <td *ngIf=" estudiante.campoB != 'inactivo'">
                             {{estudiante.telefonoEstudiante}}
                         </td>
-                        <td>
+                        <td *ngIf=" estudiante.campoB != 'inactivo'">
                             {{estudiante.emailEstudiante}}
                         </td>
-                        <td>
+                        <td *ngIf=" estudiante.campoB != 'inactivo'">
                             <div class="d-flex flex-column">
                                 <span>
                                     {{estudiante.nombreCurso}}
-                                </span> 
+                                </span>
                                 <small class="text-secondary">
                                     {{ estudiante.nombreInstitucion }}
                                 </small>
                             </div>
                         </td>
-                        <td>
+                        <td *ngIf=" estudiante.campoB != 'inactivo' ">
                             <div class="d-flex">
-                                <div class="button-icon shadow-sm" (click)="catchData(estudiante)" >
+                                <div class="button-icon shadow-sm" (click)="catchData(estudiante)">
                                     <mat-icon>edit</mat-icon>
                                 </div>
-                                <div class="button-icon shadow-sm">
+                                <div class="button-icon shadow-sm" (click)="eliminarEstudiante(estudiante.codigoEstudiante, i)">
                                     <mat-icon>delete</mat-icon>
                                 </div>
                             </div>

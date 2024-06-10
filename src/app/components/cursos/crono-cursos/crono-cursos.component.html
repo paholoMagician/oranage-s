@@ -35,14 +35,14 @@
             </div>
           </div>  
           <div class="calendario rounded-2 shadow-sm">
-            <div *ngFor="let dia of dias" class="dia">
+            <div *ngFor="let dia of dias;" class="dia">
               <div class="d-flex justify-content-between w-100 p-2 "   >
                 <div class="numero">{{ dia.num }}</div>
                 <div class="nombre">{{ dia.nombre }}</div>
               </div>
               <div class="contain-curso" >
                 <div *ngFor="let curso of dia.cursos; let i = index;" class="curso" [style]="'background: ' + curso.color+';'">
-                  <div class="nombre-curso"> <small> {{i}}.-</small> {{ curso.nombre }}</div>
+                  <div class="nombre-curso"> <small> {{i + 1}}.-</small> {{ curso.nombre }}</div>
                   <div class="nombre-institucion">{{ curso.nombreInstitucion }}</div>
                 </div>
               </div>
