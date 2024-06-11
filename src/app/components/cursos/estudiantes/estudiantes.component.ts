@@ -42,7 +42,7 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
   listaDeCursos:      any     = [];
   listaDeCursosGhost: any     = [];
   listaEstudiantes:   any     = [];
-  listaEstudiantesGhost:   any = [];
+  listaEstudiantesGhost: any  = [];
   modelAsignCurso:    any     = [];
   xtoken:any;
   show_administrer: any = true;

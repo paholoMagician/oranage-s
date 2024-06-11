@@ -133,6 +133,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { OrangeModule } from './components/modules/orange.module';
 import { VistasEstudiantesFormComponent } from './components/cursos/estudiantes/vistas-estudiantes-form/vistas-estudiantes-form.component';
+import { ProfesoresComponent } from './components/profesores/profesores.component';
 
 @NgModule({
   declarations: [

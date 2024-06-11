@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit, OnChanges {
   view_cursos:       boolean = false;
   view_estudiantes:  boolean = false;
   view_calendar   :  boolean = false;
+  view_profesores :  boolean = false;
 
   nombreUsuario: string = '';
 
@@ -63,6 +64,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_cursos = false;
         this.view_estudiantes = false;
         this.view_calendar = false;
+        this.view_profesores = false;
         break;
       case 2:
         this.view_perfil = false;
@@ -70,6 +72,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_cursos = false;
         this.view_estudiantes = false;
         this.view_calendar = false;
+        this.view_profesores = false;
         break;
       case 3:
         this.view_perfil = true;
@@ -77,6 +80,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_cursos = false;
         this.view_estudiantes = false;
         this.view_calendar = false;
+        this.view_profesores = false;
         break;
       case 4:
         this.view_perfil = false;
@@ -84,6 +88,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_cursos = false;
         this.view_estudiantes = false;
         this.view_calendar = false;
+        this.view_profesores = false;
         break;      
       case 5:
         this.view_perfil = false;
@@ -91,6 +96,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_cursos = true;
         this.view_estudiantes = false;
         this.view_calendar = false;
+        this.view_profesores = false;
         break;      
       case 1005:
         this.view_perfil = false;
@@ -98,6 +104,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_cursos = false;
         this.view_estudiantes = true;
         this.view_calendar = false;
+        this.view_profesores = false;
         break;      
       case 1006:
         this.view_perfil = false;
@@ -105,6 +112,15 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_cursos = false;
         this.view_estudiantes = false;
         this.view_calendar = true;
+        this.view_profesores = false;
+        break;      
+      case 1011:
+        this.view_perfil = false;
+        this.view_task_manager = false;
+        this.view_cursos = false;
+        this.view_estudiantes = false;
+        this.view_calendar = false;
+        this.view_profesores = true;
         break;      
     }
 
