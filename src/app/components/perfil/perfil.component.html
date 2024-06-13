@@ -146,13 +146,17 @@
                        for="password">
                         Password:
                 </label>
-                <input class="input-or form-control form-control-sm"
-                       type="text"
-                       id="password"
-                       [(ngModel)]="password">
+                <form [formGroup]="filterFormPass" class="w-100">
+                    <input class=" w-100 shadow-sm form-control rounded-pill"
+                           fxFlex="auto"
+                           type="text"
+                           formControlName="password"
+                           #password
+                           id="password">
+                </form>
             </div>
             <div>
-                <button class="btn btn-outline-dark btn-sm" (click)="actualizarPassword(password)" >
+                <button class="btn btn-outline-dark btn-sm" (click)="actualizarPassword()">
                     <i class="pi pi-lock" ></i> Actualizar password
                 </button>
             </div>

@@ -185,12 +185,25 @@
                 <mat-icon>cast_for_education</mat-icon> &nbsp; <div class="fs-5"> Cursos creados </div>
                 <strong class="fs-6">({{listaDeCursos.length}})</strong>
             </div>
-            <div class="mb-2 d-flex w-50">
+            <!-- <div class="mb-2 d-flex w-50">
                 <input class=" w-100 shadow-sm form-control rounded-pill" 
                        fxFlex="auto" type="text"
-                       [(ngModel)]="filterEstud"
-                       (keyup)="filterEstudiante()" 
+                       formControlName="filterEstud"
+                       #filterEstud
+                       (keyup)=""
                        #input placeholder="Búsqueda de nombre y tipo de asistencia...">
+            </div> -->
+            <div class="mb-2 d-flex w-50">
+                <form [formGroup]="filterForm" class="w-100">
+                    <input class=" w-100 shadow-sm form-control rounded-pill"
+                           fxFlex="auto"
+                           type="text"
+                           formControlName="filterEstud"
+                           #filterEstud
+                           id="filterEstud"
+                           (keyup)="filterEstudiante()"
+                           placeholder="Búsqueda de localidades...">
+                </form>
             </div>
         </div>
         

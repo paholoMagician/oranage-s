@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Environments } from 'src/app/environments/environments';
 import { EncryptService } from 'src/app/shared/services/encrypt.service';
 import { CursosService } from '../instituciones/modal-cursos/services/cursos.service';
@@ -24,21 +24,20 @@ const Toast = Swal.mixin({
 })
 export class CronoCursosComponent implements OnInit {
 
-  mes: number = 0;
-  anio: number = 0;
   dias: Array<{ num: number, nombre: string, cursos: any[] }> = [];
   meses: Array<{ value: number, name: string }> = [];
   anios: number[] = [];
-
-  mesActual: number = new Date().getMonth() + 1;
-  mesSeleccionadoControl: FormControl = new FormControl(this.mesActual);
-  cursoSeleccionadoControl: FormControl = new FormControl();
 
   _show_spinner: boolean = false;
   decrypt: any;
 
   listaDeCursos: any = [];
   listaDeCursosGhost: any = [];
+
+  public equiposForm = new FormGroup({
+    mes:  new FormControl(new Date().getMonth() + 1 | 0 ),
+    anio: new FormControl(new Date().getFullYear() )
+  });
 
   constructor(private env: Environments, private ncrypt: EncryptService, private curso: CursosService) { }
 
@@ -48,10 +47,15 @@ export class CronoCursosComponent implements OnInit {
     this.obtenerCursos();
     this.inicializarMeses();
     this.inicializarAnios();
-    const fechaActual = new Date();
-    this.mes = fechaActual.getMonth() + 1; // Enero es 0
-    this.anio = fechaActual.getFullYear();
     this.crearCalendario();
+
+    this.equiposForm.controls['mes'].valueChanges.subscribe(value => {
+      this.crearCalendario();
+    });
+
+    this.equiposForm.controls['anio'].valueChanges.subscribe(value => {
+      this.crearCalendario();
+    });
   }
 
   inicializarMeses() {
@@ -80,35 +84,37 @@ export class CronoCursosComponent implements OnInit {
 
   crearCalendario() {
     const nombresDias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const fecha = new Date(this.anio, this.mes - 1, 1);
+    const mes = this.equiposForm.controls['mes'].value ?? new Date().getMonth() + 1;
+    const anio = this.equiposForm.controls['anio'].value ?? new Date().getFullYear();
+    const fecha = new Date(anio, mes - 1, 1);
     this.dias = [];
 
-    while (fecha.getMonth() === this.mes - 1) {
-      this.dias.push({
-        num: fecha.getDate(),
-        nombre: nombresDias[fecha.getDay()],
-        cursos: [] // Inicializamos el array de cursos
-      });
-      fecha.setDate(fecha.getDate() + 1);
+    while (fecha.getMonth() === mes - 1) {
+        this.dias.push({
+            num: fecha.getDate(),
+            nombre: nombresDias[fecha.getDay()],
+            cursos: [] // Inicializamos el array de cursos
+        });
+        fecha.setDate(fecha.getDate() + 1);
     }
 
     // Asignar cursos a los días correspondientes
-    this.listaDeCursosGhost.forEach((curso:any) => {
-      const fechaInicio = new Date(curso.fechaini);
-      const fechaFin = new Date(curso.fechafin);
+    this.listaDeCursosGhost.forEach((curso: any) => {
+        const fechaInicio = new Date(curso.fechaini);
+        const fechaFin = new Date(curso.fechafin);
 
-      for (let d = new Date(fechaInicio); d <= fechaFin; d.setDate(d.getDate() + 1)) {
-        if (d.getMonth() + 1 === this.mes && d.getFullYear() === this.anio) {
-          const diaIndex = d.getDate() - 1;
-          if (this.dias[diaIndex]) {
-            this.dias[diaIndex].cursos.push(curso);
-          }
+        for (let d = new Date(fechaInicio); d <= fechaFin; d.setDate(d.getDate() + 1)) {
+            if (d.getMonth() + 1 === mes && d.getFullYear() === anio) {
+                const diaIndex = d.getDate() - 1;
+                if (this.dias[diaIndex]) {
+                    this.dias[diaIndex].cursos.push(curso);
+                }
+            }
         }
-      }
     });
-  }
+}
 
-  colorCurso: string="#A5F4DA";
+  colorCurso: string = "#A5F4DA";
   obtenerCursos() {
     this._show_spinner = true;
     this.curso.obtenerCursos(this.decrypt, 0).subscribe(
@@ -139,14 +145,11 @@ export class CronoCursosComponent implements OnInit {
 
   onMesChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
-    this.mes = +selectElement.value;
-    this.crearCalendario();
+    this.equiposForm.controls['mes'].setValue(+selectElement.value);
   }
 
   onAnioChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
-    this.anio = +selectElement.value;
-    this.crearCalendario();
+    this.equiposForm.controls['anio'].setValue(+selectElement.value);
   }
-
 }

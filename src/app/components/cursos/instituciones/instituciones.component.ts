@@ -30,8 +30,8 @@ const Toast = Swal.mixin({
   styleUrls: ['./instituciones.component.scss']
 })
 export class InstitucionesComponent implements OnInit {
-  filterInitit:string = '';
-  filterCli:string = '';
+  filterInitit:any;
+  filterCli:any;
   _show_spinner:boolean = false;
   link_generate:any;
   isImageSelected: boolean = false;
@@ -64,6 +64,18 @@ export class InstitucionesComponent implements OnInit {
       fechaCrea:         new FormControl('')
     }
   );
+
+  public filterForm = new FormGroup(
+    {
+      filterInitit:   new FormControl('')
+    }
+  )
+
+  public filterFormC = new FormGroup(
+    {
+      filterCli:   new FormControl('')
+    }
+  )
 
   constructor( public dialog: MatDialog,
                private instituto: InstitucionesService,
@@ -418,6 +430,7 @@ export class InstitucionesComponent implements OnInit {
   }
 
   filterCliente () {
+    this.filterCli = this.filterFormC.controls['filterCli'].value;
     this.listaDeCursos = this.listaDeCursosGhost.filter((item:any) => 
       item.nombre.toLowerCase().includes(this.filterCli.toLowerCase()) ||
       item.modalidad.toLowerCase().includes(this.filterCli.toLowerCase())
@@ -425,6 +438,7 @@ export class InstitucionesComponent implements OnInit {
   }
 
   filterInstitutos () {
+    this.filterInitit = this.filterForm.controls['filterInitit'].value;
     this.listaDeInstitutos = this.listaDeInstitutosGhost.filter((item:any) => 
       item.nombreInstitucion.toLowerCase().includes(this.filterInitit.toLowerCase()) ||
       item.encargado.toLowerCase().includes(this.filterInitit.toLowerCase())

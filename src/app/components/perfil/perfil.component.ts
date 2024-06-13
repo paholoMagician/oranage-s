@@ -32,7 +32,6 @@ export class PerfilComponent implements OnInit{
   @Output() imagenPerfilEmit: EventEmitter<any> = new EventEmitter<any>();
 
   listaPerfil: any =[];
-  password: string = '';
   link_generate:any;
   listapaises:any = [];
   isImageSelected: boolean = false;
@@ -55,6 +54,13 @@ export class PerfilComponent implements OnInit{
     edad:         new FormControl(''),
     celular:      new FormControl('')
   });
+
+  public filterFormPass = new FormGroup(
+    {
+      password:   new FormControl('')
+    }
+  )
+
 
   constructor( private sharedservs: SharedService,
                private perfil: PerfilService,
@@ -94,7 +100,7 @@ export class PerfilComponent implements OnInit{
           this.perfilForm.controls['celular'].setValue( this.listaPerfil[0].celular );
           this.perfilForm.controls['edad'].setValue( this.listaPerfil[0].edad );
           this.imagenPerfil = this.env.apiUrlStoragePerfil() + this.listaPerfil[0].fotoperfilA;
-          this.password = this.listaPerfil[0].password;
+          this.filterFormPass.controls['password'] = this.listaPerfil[0].password;
       
         }
       }
@@ -240,11 +246,11 @@ export class PerfilComponent implements OnInit{
 
   }
 
-  actualizarPassword(pass:any) {
+  actualizarPassword() {
     this._show_spinner = true;
     const token: any = sessionStorage.getItem('c_c_r_u');
     let decodec: any = this.ncrypt.decryptWithAsciiSeed(token,this.env.seed, this.env.hashlvl);
-
+    let pass:any = this.filterFormPass.controls['password'].value;
     this.perfil.actualizarPass(pass, decodec).subscribe({
       next: (x) => {
         Toast.fire({

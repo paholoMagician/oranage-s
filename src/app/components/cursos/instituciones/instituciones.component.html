@@ -101,11 +101,16 @@
                         <strong class="fs-6">({{listaDeInstitutos.length}})</strong>
                     </div>
                     <div class="mb-2 d-flex w-50">
-                        <input class=" w-100 shadow-sm form-control rounded-pill" 
-                               fxFlex="auto" type="text"
-                               [(ngModel)]="filterInitit"
-                               (keyup)="filterInstitutos()" 
-                               #input placeholder="Búsqueda de nombre y tipo de asistencia...">
+                        <form [formGroup]="filterForm" class="w-100">
+                            <input class=" w-100 shadow-sm form-control rounded-pill"
+                                   fxFlex="auto"
+                                   type="text"
+                                   formControlName="filterInitit"
+                                   #filterInitit
+                                   id="filterInitit"
+                                   (keyup)="filterInstitutos()"
+                                   placeholder="Búsqueda de Institutos...">
+                        </form>
                     </div>
                     <div class="button-icon shadow-sm"
                          matTooltip="Crea la información de la institución para poder acceder a las demás características de la aplicación."
@@ -167,11 +172,16 @@
                     <strong class="fs-6">({{listaDeCursos.length}})</strong>
                 </div>
                 <div class="mb-2 d-flex w-50">
-                    <input class=" w-100 shadow-sm form-control rounded-pill" 
-                           fxFlex="auto" type="text"
-                           [(ngModel)]="filterCli"
-                           (keyup)="filterCliente()" 
-                           #input placeholder="Búsqueda de nombre y tipo de asistencia...">
+                    <form [formGroup]="filterFormC" class="w-100">
+                        <input class=" w-100 shadow-sm form-control rounded-pill"
+                               fxFlex="auto"
+                               type="text"
+                               formControlName="filterCli"
+                               #filterCli
+                               id="filterCli"
+                               (keyup)="filterCliente()"
+                               placeholder="Búsqueda de Institutos...">
+                    </form>
                 </div>
             </div>
             <small class="text-secondary p-1">

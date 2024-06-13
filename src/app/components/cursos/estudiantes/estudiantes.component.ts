@@ -69,6 +69,12 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
     }
   );
 
+  public filterForm = new FormGroup(
+    {
+      filterEstud:   new FormControl('')
+    }
+  )
+
   generos: any = [ {nombre: 'Masculino'}, {nombre: 'Femenino'} ]
   
   constructor(
@@ -293,12 +299,13 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
 
   filterEstud: any;
   filterEstudiante () {
+    this.filterEstud = this.filterForm.controls['filterEstud'].value;
     this.listaEstudiantes = this.listaEstudiantesGhost.filter((item:any) => 
-      item.nombreEstudiante.toLowerCase().includes(this.filterEstud.toLowerCase()) ||
-      item.nombreCurso.toLowerCase().includes(this.filterEstud.toLowerCase()) ||
+      item.nombreEstudiante.toLowerCase() .includes(this.filterEstud.toLowerCase()) ||
+      item.nombreCurso.toLowerCase()      .includes(this.filterEstud.toLowerCase()) ||
       item.nombreInstitucion.toLowerCase().includes(this.filterEstud.toLowerCase()) ||
-      item.cedula.toLowerCase().includes(this.filterEstud.toLowerCase()) ||
-      item.emailEstudiante.toLowerCase().includes(this.filterEstud.toLowerCase())
+      item.cedula.toLowerCase()           .includes(this.filterEstud.toLowerCase()) ||
+      item.emailEstudiante.toLowerCase()  .includes(this.filterEstud.toLowerCase())
     );
   }
 
