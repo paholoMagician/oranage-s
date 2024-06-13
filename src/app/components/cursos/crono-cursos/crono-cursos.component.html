@@ -15,25 +15,31 @@
                 </span>
             </div>
             <div>
-              <label for="mes" class="text-secondary" >Mes:</label>
+              <label for="mes" class="text-secondary">
+                Mes:
+              </label>
               <select id="mes"
                       [(ngModel)]="mes"
                       (change)="onMesChange($event)">
-                      <option *ngFor="let mes of meses" [value]="mes.value">
-                        {{ mes.name }}
+                      <option *ngFor="let mes of meses"
+                              [value]="mes.value">
+                              {{ mes.name }}
                       </option>
               </select>
-            
-              <label for="anio" class="text-secondary">Año:</label>
+              <label for="anio" class="text-secondary">
+                Año:
+              </label>
               <select id="anio"
                       [(ngModel)]="anio"
                       (change)="onAnioChange($event)">
-                      <option *ngFor="let anio of anios" [value]="anio">
-                        {{ anio }}
+                      <option *ngFor="let anio of anios"
+                              [value]="anio">
+                              {{ anio }}
                       </option>
               </select>
             </div>
-          </div>  
+          </div>
+
           <div class="calendario rounded-2 shadow-sm">
             <div *ngFor="let dia of dias;" class="dia">
               <div class="d-flex justify-content-between w-100 p-2 "   >

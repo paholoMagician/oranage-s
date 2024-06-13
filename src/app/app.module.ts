@@ -134,6 +134,7 @@ import { LoginComponent } from './components/login/login.component';
 import { OrangeModule } from './components/modules/orange.module';
 import { VistasEstudiantesFormComponent } from './components/cursos/estudiantes/vistas-estudiantes-form/vistas-estudiantes-form.component';
 import { ProfesoresComponent } from './components/profesores/profesores.component';
+import { AreasComponent } from './components/areas/areas.component';
 
 @NgModule({
   declarations: [

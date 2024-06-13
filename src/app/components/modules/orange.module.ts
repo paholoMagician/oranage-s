@@ -140,6 +140,7 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from "@angular/material-mo
 import { CronoCursosComponent } from "../cursos/crono-cursos/crono-cursos.component";
 import { VistasEstudiantesFormComponent } from "../cursos/estudiantes/vistas-estudiantes-form/vistas-estudiantes-form.component";
 import { ProfesoresComponent } from "../profesores/profesores.component";
+import { AreasComponent } from "../areas/areas.component";
 
 // Registra el idioma español latino
 registerLocaleData(localeEs, 'es');
@@ -157,7 +158,8 @@ registerLocaleData(localeEs, 'es');
       EstudiantesComponent,
       CronoCursosComponent,
       VistasEstudiantesFormComponent,
-      ProfesoresComponent
+      ProfesoresComponent,
+      AreasComponent
     ],
     imports: [
       CommonModule,
@@ -293,7 +295,8 @@ registerLocaleData(localeEs, 'es');
       EstudiantesComponent,
       CronoCursosComponent,
       VistasEstudiantesFormComponent,
-      ProfesoresComponent
+      ProfesoresComponent,
+      AreasComponent
     ],
     providers: [
       // Configura el idioma para el datepicker
