@@ -8,9 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class AreasComponent implements OnInit {
 
   _show_spinner: boolean = false;
-
-  ngOnInit(): void {
-      
+  ngOnInit(): void { 
+    
   }
 
 }
