@@ -118,14 +118,9 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
     if ( xuser ) {
       this.decrypt = this.ncrypt.decryptWithAsciiSeed(xuser, this.env.seed, this.env.hashlvl);
       this.obtenerCursos(this.decrypt, 0);
-      
-
-
       this.obtenerEstudiantesCreados(this.decrypt, 1);
-
       // Deshabilitar los controles excepto 'curso' en ngOnInit
       this.disableFormControls();
-
       const cursoControl = this.estudianteForm.get('curso');
       if (cursoControl) {
         cursoControl.valueChanges.subscribe(cursoValue => {
@@ -265,7 +260,7 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
   eliminarEstudiante(cod:string, i:number) {
 
     Swal.fire({
-      title: "Estás segura?",
+      title: "Estás segur@?",
       text:  "Esta acción es irreversible y puede provocar perdidad de datos!",
       icon:  "warning",
       showCancelButton:   true,

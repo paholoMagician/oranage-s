@@ -160,7 +160,8 @@
                               class="form-control form-control-sm"
                               #observacion
                               formControlName="observacion"
-                              id="observacion" rows="2">
+                              id="observacion" 
+                              rows="2">
                     </textarea>
                 </div>
                 <div class="btn-settings p-1 w-100 d-flex justify-content-end">
@@ -178,12 +179,11 @@
     </div>
 
     <div class="module-works" *ngIf="show_administrer" >
-
         
         <div class="d-flex justify-content-between">
             <div class="title d-flex align-items-center p-2">
-                <mat-icon>cast_for_education</mat-icon> &nbsp; <div class="fs-5"> Cursos creados </div>
-                <strong class="fs-6">({{listaDeCursos.length}})</strong>
+                <mat-icon>group</mat-icon> &nbsp; <div class="fs-5"> Estudiantes creados </div>
+                <strong class="fs-6">({{listaEstudiantes.length}})</strong>
             </div>
             <div class="mb-2 d-flex w-50">
                 <form [formGroup]="filterForm" class="w-100">
@@ -194,8 +194,16 @@
                            #filterEstud
                            id="filterEstud"
                            (keyup)="filterEstudiante()"
-                           placeholder="Búsqueda de localidades...">
+                           placeholder="Búsqueda de estudiantes...">
                 </form>
+                &nbsp;
+                <div>
+                    <button class="btn btn-outline-dark shadow-sm rounded-pill d-flex align-items-center" >
+                        <mat-icon>
+                            add_circle
+                        </mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
         

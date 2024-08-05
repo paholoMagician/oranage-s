@@ -141,6 +141,7 @@ import { CronoCursosComponent } from "../cursos/crono-cursos/crono-cursos.compon
 import { VistasEstudiantesFormComponent } from "../cursos/estudiantes/vistas-estudiantes-form/vistas-estudiantes-form.component";
 import { ProfesoresComponent } from "../profesores/profesores.component";
 import { AreasComponent } from "../areas/areas.component";
+import { AulasEducativasComponent } from "../aulas-educativas/aulas-educativas.component";
 
 // Registra el idioma español latino
 registerLocaleData(localeEs, 'es');
@@ -159,7 +160,8 @@ registerLocaleData(localeEs, 'es');
       CronoCursosComponent,
       VistasEstudiantesFormComponent,
       ProfesoresComponent,
-      AreasComponent
+      AreasComponent,
+      AulasEducativasComponent
     ],
     imports: [
       CommonModule,

@@ -6,21 +6,251 @@
 
 <div class="container-fluid p-3">
 
-    <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn">
-        <div class="p-1 d-flex justify-content-between" >
+    <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn" *ngIf="show_crear">
+        <div class="p-1 d-flex justify-content-between align-items-center">
             <span class="text-secondary">
                 Crear profesores:
             </span>
-            <div class="enlace">
+            <!-- <div class="enlace">
                 <button class="btn btn-primary btn-sm d-flex align-items-center" >
                     <mat-icon>link</mat-icon> Compartir enlace 
                 </button>
-            </div>
+            </div> -->
           </div>
         <hr>
         <div>
-        
+            <form [formGroup]="areasEdForm" 
+                  class="w-100"
+                  (ngSubmit)="submit()" >
+                <div class="d-flex flex-wrap flex-column">
+                    <div class="d-flex  flex-wrap">
+                        <div class="m-1 col-3">
+                            <label class="text-secondary" for="nombre">
+                                Nombre:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="nombre"
+                                   #nombre
+                                   id="nombre">
+                        </div>
+                        <div class="m-1 col-4">
+                            <label class="text-secondary" for="email">
+                                Email:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="email"
+                                   #email
+                                   id="email">
+                        </div>
+                        <div class="m-1">
+                            <label class="text-secondary" for="telefono">
+                                Telefono:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="telefono"
+                                   #telefono
+                                   id="telefono">
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="m-1 " style="width: 120px;">
+                            <label class="text-secondary" for="edad">
+                                Edad:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="number"
+                                   formControlName="edad"
+                                   #edad
+                                   id="edad">
+                        </div>
+                        <div class="m-1 col-4">
+                            <label class="text-secondary" for="cedula">
+                                Cedula:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="cedula"
+                                   #cedula
+                                   id="cedula">
+                        </div>
+                    </div>
+                    <div class="m-1">
+                        <label class="text-secondary" for="observacion">
+                            Observacion:
+                        </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="observacion"
+                               #observacion
+                               id="observacion">
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="m-1">
+                            <label for="codpais" class="text-secondary">
+                                    País:
+                            </label>
+                            <select class="inpForms form-select form-select-sm w-100"
+                                    formControlName="codpais"
+                                    #codpais
+                                    id="codpais"
+                                    aria-label="">
+                                    <option *ngFor="let paises of listapaises"
+                                            [value]="paises.codigo">
+                                            {{paises.nombre | titlecase }}
+                                    </option>
+                            </select>
+                        </div>
+                        <div class="m-1">
+                            <label class="text-secondary" for="codprov"> Provincia: </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="codprov"
+                                   #codprov
+                                   id="codprov">
+                        </div>
+                        <div class="m-1">
+                            <label class="text-secondary" for="codCanton"> Canton: </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="codCanton"
+                                   #codCanton
+                                   id="codCanton">
+                        </div>
+                        <div class="m-1 col-6">
+                            <label class="text-secondary" for="direccion">
+                                Direccion:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="direccion"
+                                   #direccion
+                                   id="direccion">
+                        </div>
+                    </div>
+
+                    <div class="btn-settings p-1 w-100 d-flex justify-content-end">
+                        <button type="button" 
+                                class="btn btn-danger btn-sm d-flex align-items-center"
+                                (click)="limpiar()">
+                                <i class="pi pi-times-circle"></i>
+                        </button>
+                        <button type="submit"
+                                class="btn btn-outline-dark btn-sm">
+                                <i class="pi pi-save"></i> 
+                                {{ action_button }}
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
+    <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn">
+        <div class="p-1 d-flex justify-content-between align-items-center">
+            <span class="text-secondary">
+                Profesores creados:
+                <strong class="fs-6">({{listaProfesores.length}})</strong>
+            </span>            
+            <div class="mb-2 d-flex w-50">
+                <form [formGroup]="filterForm" class="w-100">
+                    <input class=" w-100 shadow-sm form-control rounded-pill"
+                           fxFlex="auto"
+                           type="text"
+                           formControlName="filterEstud"
+                           #filterEstud
+                           id="filterEstud"
+                           (keyup)="filterProfesor()"
+                           placeholder="Búsqueda de profesores...">
+                </form>
+                &nbsp;
+                <div>
+                    <button (click)="show_crear = !show_crear" 
+                        class="btn btn-outline-dark shadow-sm rounded-pill d-flex align-items-center">
+                        <mat-icon>
+                            add_circle
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+          </div>
+        <hr>
+        <div class="table-responsive" >
+            <table class="table table-secondary align-middle" >
+                <thead class="bg-dark text-light" >               
+                    <th>
+                        Nombre Profesor
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Telefono
+                    </th>
+                    <th>
+                        Edad
+                    </th>
+                    <th>
+                        Cédula
+                    </th>
+                    <th>
+                        Pais
+                    </th>
+                    <th>
+                        Provincia
+                    </th>
+                    <th>
+                        Canton
+                    </th>
+                    <th>
+                        Direccion
+                    </th>
+                    <th>                        
+                    </th>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let profesor of listaProfesores; let i = index;"  >
+                        <td>
+                            {{profesor.nombre}}
+                        </td>
+                        <td>
+                            {{profesor.email}}
+                        </td>
+                        <td >
+                            {{profesor.telefono}}
+                        </td>
+                        <td >
+                            {{profesor.edad}}
+                        </td>
+                        <td >
+                            {{profesor.cedula}}
+                        </td>
+                        <td >
+                            {{profesor.nombrePais}}
+                        </td>                        
+                        <td >
+                            {{profesor.codprov}}
+                        </td>                    
+                        <td >
+                            {{profesor.codCanton}}
+                        </td>                    
+                        <td >
+                            {{profesor.direccion}}
+                        </td>                    
+                        <td>
+                            <div class="d-flex">
+                                <div class="button-icon shadow-sm" (click)="catchData(profesor)">
+                                    <mat-icon>edit</mat-icon>
+                                </div>
+                                <div class="button-icon shadow-sm" (click)="eliminarProfesor(profesor.id, i)">
+                                    <mat-icon>delete</mat-icon>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

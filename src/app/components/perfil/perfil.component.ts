@@ -89,7 +89,6 @@ export class PerfilComponent implements OnInit{
         this._show_spinner = false;
       }, complete: () => {
         if( this.listaPerfil ) {
-
           this.perfilForm.controls['alias'].setValue( this.listaPerfil[0].nombre1 );
           this.perfilForm.controls['nombre'].setValue( this.listaPerfil[0].nombre );
           this.perfilForm.controls['apellido'].setValue( this.listaPerfil[0].apellido );
@@ -100,7 +99,7 @@ export class PerfilComponent implements OnInit{
           this.perfilForm.controls['celular'].setValue( this.listaPerfil[0].celular );
           this.perfilForm.controls['edad'].setValue( this.listaPerfil[0].edad );
           this.imagenPerfil = this.env.apiUrlStoragePerfil() + this.listaPerfil[0].fotoperfilA;
-          this.filterFormPass.controls['password'] = this.listaPerfil[0].password;
+          this.filterFormPass.controls['password'].setValue(this.listaPerfil[0].password);
       
         }
       }

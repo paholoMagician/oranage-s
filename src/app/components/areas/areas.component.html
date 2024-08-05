@@ -6,15 +6,182 @@
 
 <div class="container-fluid p-3">
     <div class="module-works mb-2 d-flex flex-column
-                animate__animated animate__bounceIn">
+                animate__animated animate__bounceIn"
+                *ngIf="show_ED">
         <div class="p-1 d-flex justify-content-between">
             <span class="text-secondary">
-                Crear Áreas educativas:
+                {{action_head_ED}} area educativa:
             </span>
         </div>
         <hr>
-        <div>
-            <div #myDiagramDiv style="width:400px; height:150px; background-color: #DAE4E4;"></div>
+        <div class="w-100">
+            <form [formGroup]="areasEdForm" 
+                  class="w-100"
+                  (ngSubmit)="submitED()" >
+                <div class="d-flex flex-wrap align-items-end">
+                    <div class="m-1 col-4">
+                        <label class="text-secondary" for="nombreArea">
+                            Nombre del area educativa:
+                        </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="nombreArea"
+                               #nombreArea
+                               id="nombreArea">
+                    </div>
+                    <div class="m-1 col-6">
+                        <label class="text-secondary" for="descripcion">
+                            Descripción:
+                        </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="descripcion"
+                               #descripcion
+                               id="descripcion">
+                    </div>
+                    <div class="btn-settings p-1 w-100 d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
+                                (click)="limpiarED();">
+                                <i class="pi pi-times-circle"></i>
+                        </button>
+                        <button type="submit"
+                                class="btn btn-outline-dark btn-sm">
+                                <i class="pi pi-save"></i> {{ action_button_ED }}
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+    <div class="module-works mb-2 d-flex flex-column
+                animate__animated animate__bounceIn"
+                *ngIf="show_AC">
+        <div class="p-1 d-flex justify-content-between">
+            <span class="text-secondary">
+                {{action_head_AC}} area academica:
+            </span>
+        </div>
+        <hr>
+        <div class="w-100">
+            <form [formGroup]="areasAcForm" 
+                  class="w-100"
+                  (ngSubmit)="submitAC()" >
+                <div class="d-flex flex-wrap align-items-end">
+                    <div class="m-1 col-3">
+                        <label class="text-secondary"
+                               for="idAreaEducativa">
+                               Area educativa:
+                        </label>
+                        <select class="inpForms form-select w-100"
+                                formControlName="idAreaEducativa" #idAreaEducativa id="idAreaEducativa">
+                                <option *ngFor="let ared of listaAreaEducativa"
+                                        [value]="ared.id">
+                                        <span>
+                                            {{ared.nombreArea | titlecase}}
+                                        </span> 
+                                </option> 
+                        </select>
+                    </div>
+                    <div class="m-1 col-3">
+                        <label class="text-secondary" for="nombreArea">
+                            Nombre del area academica:
+                        </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="nombreArea"
+                               #nombreArea
+                               id="nombreArea">
+                    </div>
+                    <div class="m-1 col-4">
+                        <label class="text-secondary" for="descripcion">
+                            Observación:
+                        </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="text"
+                               formControlName="descripcion"
+                               #descripcion
+                               id="descripcion">
+                    </div>
+                    <div class="btn-settings p-1 w-100 d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
+                                (click)="limpiarAC(); ">
+                                <i class="pi pi-times-circle"></i>
+                        </button>
+                        <button type="submit"
+                                class="btn btn-outline-dark btn-sm">
+                                <i class="pi pi-save"></i> {{ action_button_AC }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="module-works mb-2 d-flex flex-column
+                animate__animated animate__bounceIn">
+        <div class="p-1 d-flex justify-content-between">
+            <div>
+                <span class="text-secondary">
+                    Areas educativas creadas:
+                </span>
+            </div>
+            <div class="d-flex">
+                <button class="btn btn-outline-dark d-flex justify-content-between align-items-center"
+                        (click)="show_ED = !show_ED"> 
+                    <mat-icon>add_circle</mat-icon> Crear area educativa
+                </button>
+                &nbsp;
+                <button class="btn btn-outline-dark d-flex justify-content-between align-items-center"
+                        (click)="show_AC = !show_AC">
+                    <mat-icon>add_circle</mat-icon> Crear area academica
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="tree">
+            <ul>
+              <li *ngFor="let areaEducativa of listaAreaUnida">
+                <span class="area-educativa d-flex justify-content-start align-items-center">
+                  <div class="icon-menu-vert" [matMenuTriggerFor]="educativaMenu" *ngIf="areaEducativa.areasAcademicas.length == 0">
+                    <mat-icon>more_vert</mat-icon>
+                  </div>
+                  &nbsp;
+                  <div>{{ areaEducativa.nombreArea }}</div>
+                </span>
+                <mat-menu #educativaMenu="matMenu">
+                  <button mat-menu-item (click)="catchDataED(areaEducativa)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                  <button mat-menu-item (click)="EliminarAreaEducativa(areaEducativa.id)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Eliminar</span>
+                  </button>
+                </mat-menu>
+                <ul>
+                  <li *ngFor="let areaAcademica of areaEducativa.areasAcademicas; let i = index">
+                    <span class="area-academica d-flex justify-content-start align-items-center">
+                      <div class="icon-menu-vert" [matMenuTriggerFor]="academicaMenu">
+                        <mat-icon>more_vert</mat-icon>
+                      </div>
+                      &nbsp;
+                      <div>{{ areaAcademica.nombreArea }}</div>
+                    </span>
+                    <mat-menu #academicaMenu="matMenu">
+                      <button mat-menu-item (click)="catchDataAC(areaAcademica)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar</span>
+                      </button>
+                      <button mat-menu-item (click)="EliminarAreaAcademica(areaAcademica.id, i)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Eliminar</span>
+                      </button>
+                    </mat-menu>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          
+    </div>
 </div>
+

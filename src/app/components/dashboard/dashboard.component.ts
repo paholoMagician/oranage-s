@@ -15,15 +15,17 @@ import { PerfilService } from '../perfil/services/perfil.service';
 export class DashboardComponent implements OnInit, OnChanges {
   _show_spinner:boolean = false;
   imagenPerfil:any
-  view_perfil:       boolean = false;
-  view_task_manager: boolean = false;
-  view_messenger:    boolean = false;
-  view_config:       boolean = false;
-  view_cursos:       boolean = false;
-  view_estudiantes:  boolean = false;
-  view_calendar   :  boolean = false;
-  view_profesores :  boolean = false;
-  view_areas :       boolean = false;
+  view_perfil:            boolean = false;
+  view_task_manager:      boolean = false;
+  view_messenger:         boolean = false;
+  view_config:            boolean = false;
+  view_cursos:            boolean = false;
+  view_estudiantes:       boolean = false;
+  view_calendar   :       boolean = false;
+  view_profesores :       boolean = false;
+  view_areas :            boolean = false;
+  view_aulas_educativas : boolean = false;
+  view_materias :         boolean = false;
 
   nombreUsuario: string = '';
 
@@ -67,6 +69,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = false;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;
       case 2:
         this.view_perfil = false;
@@ -76,6 +80,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = false;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;
       case 3:
         this.view_perfil = true;
@@ -85,6 +91,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = false;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;
       case 4:
         this.view_perfil = false;
@@ -94,6 +102,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = false;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;      
       case 5:
         this.view_perfil = false;
@@ -103,6 +113,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = false;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;      
       case 1005:
         this.view_perfil = false;
@@ -112,6 +124,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = false;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;      
       case 1006:
         this.view_perfil = false;
@@ -121,6 +135,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = true;
         this.view_profesores = false;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;      
       case 1011:
         this.view_perfil = false;
@@ -130,6 +146,8 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = true;
         this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
         break;      
       case 1012:
         this.view_perfil = false;
@@ -139,6 +157,30 @@ export class DashboardComponent implements OnInit, OnChanges {
         this.view_calendar = false;
         this.view_profesores = false;
         this.view_areas = true;
+        this.view_aulas_educativas = false;
+        this.view_materias = false;
+        break;      
+      case 1014:
+        this.view_perfil = false;
+        this.view_task_manager = false;
+        this.view_cursos = false;
+        this.view_estudiantes = false;
+        this.view_calendar = false;
+        this.view_profesores = false;
+        this.view_areas = false;
+        this.view_aulas_educativas = false;
+        this.view_materias = true;
+        break;      
+      case 1015:
+        this.view_perfil = false;
+        this.view_task_manager = false;
+        this.view_cursos = false;
+        this.view_estudiantes = false;
+        this.view_calendar = false;
+        this.view_profesores = false;
+        this.view_areas = false;
+        this.view_aulas_educativas = true;
+        this.view_materias = false;
         break;      
     }
 

@@ -1,0 +1,161 @@
+<div class="spinner-overlay"  *ngIf="_show_spinner">
+    <div class="spinner-container">
+        <span class="loader"></span>
+    </div>
+</div>
+
+<div class="container-fluid p-3">
+    <div class="module-works mb-2 d-flex flex-column 
+                animate__animated animate__bounceIn" *ngIf="showFormCreate">
+        <div class="p-1 d-flex justify-content-between">
+            <span class="text-secondary">
+                {{action_head}} Aulas Educativas:
+            </span>
+        </div>
+        <hr>
+        <div class="w-100">
+            <form [formGroup]="aulasEducativasForm" 
+                  class="w-100"
+                  (ngSubmit)="submitMaterias()" >
+                <div class="d-flex justify-content-between align-items-end "  >
+                    <div class="d-flex w-75 justify-content-start align-items-end flex-wrap">
+                        <div class="m-1 col-3">
+                            <label class="text-secondary" for="nombre">
+                                Nombre distintivo:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="nombre"
+                                   #nombre
+                                   id="nombre">
+                        </div>
+                        <div class="m-1" style="width: 70px;">
+                            <label class="text-secondary" for="cantidadAlumnos">    
+                                Cantidad:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="number"
+                                   formControlName="cantidadAlumnos"
+                                   #cantidadAlumnos
+                                   id="cantidadAlumnos">
+                        </div>
+                        <div class="m-1 col-2">
+                            <label for="codpais" class="text-secondary">
+                                Jornada:
+                            </label>
+                            <select class="inpForms form-select form-select-sm w-100"
+                                    formControlName="jornada"
+                                    #jornada
+                                    id="jornada"
+                                    aria-label="">
+                                    <option *ngFor="let jornada of listaFrecuencias"
+                                            [value]="jornada.codigo">
+                                            {{jornada.nombre | titlecase }}
+                                    </option>
+                            </select>
+                        </div>
+                        <div class="m-1 col-5">
+                            <label class="text-secondary" for="descripcion">
+                                Descripción:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   formControlName="descripcion"
+                                   #descripcion
+                                   id="descripcion">
+                        </div>
+                    </div>
+                    <div class="btn-settings p-1 w-25 d-flex justify-content-end" >
+                        <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
+                                (click)="limpiar();">
+                                <i class="pi pi-times-circle"></i>
+                        </button>
+                        <button type="submit"
+                                class="btn btn-outline-dark btn-sm">
+                                <i class="pi pi-save"></i> {{ action_button_aulas }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="module-works mb-2 d-flex flex-column
+                animate__animated animate__bounceIn">
+        <div class="p-1 d-flex justify-content-between align-items-center">
+            <span class="text-secondary">
+                Aulas Educativas Creadas:
+                <strong class="fs-6">({{listaAulasEducativas.length}})</strong>
+            </span>            
+            <div class="mb-2 d-flex w-50">
+                <form [formGroup]="filterForm" class="w-100">
+                    <input class=" w-100 shadow-sm form-control rounded-pill"
+                           fxFlex="auto"
+                           type="text"
+                           formControlName="filterAulas"
+                           #filterAulas
+                           id="filterAulas"
+                           (keyup)="filterAulasEde()"
+                           placeholder="Búsqueda de aulas educativas...">
+                </form>
+                &nbsp;
+                <div>
+                    <button (click)="showFormCreate = !showFormCreate" 
+                        class="btn btn-outline-dark shadow-sm rounded-pill d-flex align-items-center">
+                        <mat-icon>
+                            add_circle
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+          </div>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-secondary align-middle" >
+                <thead class="bg-dark text-light" >
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Cantidad de alumnos
+                    </th>
+                    <th>
+                        Jornada
+                    </th>
+                    <th>
+                        Descripcion
+                    </th>
+                    <th>
+                        
+                    </th>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let aulastabla of listaAulasEducativas; let i = index;"  >
+                        <td >
+                            {{aulastabla.nombre}}
+                        </td>
+                        <td >
+                            {{aulastabla.cantidadAlumnos}}
+                        </td>
+                        <td >
+                            {{aulastabla.nombreJornada}}
+                        </td>
+                        <td >
+                            {{aulastabla.descripcion}} 
+                        </td>
+                        <td *ngIf=" aulastabla.campoB != 'inactivo' ">
+                            <div class="d-flex">
+                                <div class="button-icon shadow-sm" (click)="catchDataAulas(aulastabla)">
+                                    <mat-icon>edit</mat-icon>
+                                </div>
+                                <div class="button-icon shadow-sm" (click)="eliminarAulasEducativas(aulastabla.id, i)">
+                                    <mat-icon>delete</mat-icon>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
