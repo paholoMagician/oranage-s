@@ -5,6 +5,7 @@ import { ProfesoresService } from './services/profesores.service';
 import { EncryptService } from 'src/app/shared/services/encrypt.service';
 import { Environments } from 'src/app/environments/environments';
 import Swal from 'sweetalert2'
+import { InstitucionesService } from '../cursos/instituciones/services/instituciones.service';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -33,34 +34,36 @@ export class ProfesoresComponent implements OnInit {
   listaProfesores: any = [];
   listaProfesoresGhost: any = [];
 
-  public filterForm = new FormGroup(
-    {
+  public filterForm = new FormGroup({
       filterEstud:   new FormControl('')
-    }
-  )
+  })
 
   public areasEdForm = new FormGroup ({
-    nombre:      new FormControl(''),
-    email:       new FormControl(''),
-    telefono:    new FormControl(''),
-    edad:        new FormControl(),
-    observacion: new FormControl(''),
-    cedula:      new FormControl(''),
-    codpais:     new FormControl(''),
-    codprov:     new FormControl(''),
-    codCanton:   new FormControl(''),
-    direccion:   new FormControl(''),
+    nombre:       new FormControl(''),
+    email:        new FormControl(''),
+    telefono:     new FormControl(''),
+    edad:         new FormControl(),
+    observacion:  new FormControl(''),
+    cedula:       new FormControl(''),
+    codpais:      new FormControl(''),
+    codprov:      new FormControl(''),
+    codCanton:    new FormControl(''),
+    direccion:    new FormControl(''),
+    idInstitutos: new FormControl(),
   });
 
   public curriculumForm = new FormGroup({
     curriculumPdfUrl: new FormControl()
   })
 
-  constructor(private env: Environments, private ncrypt: EncryptService, private sharedservs: SharedService, private profesor: ProfesoresService) {}
-
+  constructor(private instituto: InstitucionesService, private env: Environments, private ncrypt: EncryptService, private sharedservs: SharedService, private profesor: ProfesoresService) {}
+  coduser: any;
   ngOnInit(): void {
+    let x: any = sessionStorage.getItem('c_c_r_u')
+    this.coduser = this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl);
     this.getDataMaster('P00');
     this.obtenerProfesores();
+    this.obtenerIntituto();
   }
 
   getDataMaster(cod:string) {
@@ -79,25 +82,27 @@ export class ProfesoresComponent implements OnInit {
 
   guardarProfesor() {
   
-    let x: any = sessionStorage.getItem('c_c_r_u')
     this.modelProfesores = {
 
-      nombre:       this.areasEdForm.controls['nombre'].value,
-      email:        this.areasEdForm.controls['email'].value,
-      telefono:     this.areasEdForm.controls['telefono'].value,
-      edad:         this.areasEdForm.controls['edad'].value,
-      usercrea:     this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl),
+      nombre:       this.areasEdForm.controls['nombre']     .value,
+      email:        this.areasEdForm.controls['email']      .value,
+      telefono:     this.areasEdForm.controls['telefono']   .value,
+      edad:         this.areasEdForm.controls['edad']       .value,
+      usercrea:     this.coduser,
       observacion:  this.areasEdForm.controls['observacion'].value,
-      cedula:       this.areasEdForm.controls['cedula'].value,
-      codpais:      this.areasEdForm.controls['codpais'].value,
-      codprov:      this.areasEdForm.controls['codprov'].value,
-      direccion:    this.areasEdForm.controls['direccion'].value,
-      codCanton:    this.areasEdForm.controls['codCanton'].value,
+      cedula:       this.areasEdForm.controls['cedula']     .value,
+      codpais:      this.areasEdForm.controls['codpais']    .value,
+      codprov:      this.areasEdForm.controls['codprov']    .value,
+      direccion:    this.areasEdForm.controls['direccion']  .value,
+      codCanton:    this.areasEdForm.controls['codCanton']  .value,
+      idInstitutos: this.areasEdForm.controls['idInstitutos'].value,
       curriculumPdfUrl: null,
-      estado: 1,
-      permisos: 1
+      estado:       1,
+      permisos:     1
 
     }
+
+    console.warn(this.modelProfesores);
 
     if ( this.areasEdForm.controls['nombre'].value == undefined || this.areasEdForm.controls['nombre'].value == null || this.areasEdForm.controls['nombre'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del profesor vacío.'} )
     else if ( this.areasEdForm.controls['email'].value == undefined || this.areasEdForm.controls['email'].value == null || this.areasEdForm.controls['email'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el email del profesor vacío.'} )
@@ -106,6 +111,7 @@ export class ProfesoresComponent implements OnInit {
     else if ( this.areasEdForm.controls['codpais'].value == undefined || this.areasEdForm.controls['codpais'].value == null || this.areasEdForm.controls['codpais'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el pais del profesor vacío.'} )
     else if ( this.areasEdForm.controls['codprov'].value == undefined || this.areasEdForm.controls['codprov'].value == null || this.areasEdForm.controls['codprov'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la provincia o estado de ubicacion del profesor vacío.'} )
     else {
+  // alert(1)
       this._show_spinner = true;
       this.profesor.guardarProfesores(this.modelProfesores).subscribe({
         next: (x) => {
@@ -146,20 +152,20 @@ export class ProfesoresComponent implements OnInit {
 
   actualizarProfesor() {
   
-    let x: any = sessionStorage.getItem('c_c_r_u')
     this.modelProfesores = {
       id: this.idProfesor,
       nombre:       this.areasEdForm.controls['nombre'].value,
       email:        this.areasEdForm.controls['email'].value,
       telefono:     this.areasEdForm.controls['telefono'].value,
       edad:         this.areasEdForm.controls['edad'].value,
-      usercrea:     this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl),
+      usercrea:     this.coduser,
       observacion:  this.areasEdForm.controls['observacion'].value,
       cedula:       this.areasEdForm.controls['cedula'].value,
       codpais:      this.areasEdForm.controls['codpais'].value,
       codprov:      this.areasEdForm.controls['codprov'].value,
       direccion:    this.areasEdForm.controls['direccion'].value,
       codCanton:    this.areasEdForm.controls['codCanton'].value,
+      idInstitutos: this.areasEdForm.controls['idInstitutos'].value,
       fecrea:       new Date(),
       curriculumPdfUrl: null,
       estado:   1,
@@ -206,8 +212,7 @@ export class ProfesoresComponent implements OnInit {
 
   obtenerProfesores() {
     this._show_spinner = true;
-    let x: any = sessionStorage.getItem('c_c_r_u')
-    this.profesor.obtenerProfesores(this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl)).subscribe({
+    this.profesor.obtenerProfesores(this.coduser).subscribe({
       next: (x) => {
         this.listaProfesores = x;
         this.listaProfesoresGhost = x;
@@ -244,6 +249,7 @@ export class ProfesoresComponent implements OnInit {
     this.areasEdForm.controls['codprov'].setValue(data.codprov);
     this.areasEdForm.controls['direccion'].setValue(data.direccion);
     this.areasEdForm.controls['codCanton'].setValue(data.codCanton);
+    this.areasEdForm.controls['idInstitutos'].setValue(data.idInstitutos);
     this.action_button = 'Actualizar';
   }
 
@@ -258,7 +264,8 @@ export class ProfesoresComponent implements OnInit {
     this.areasEdForm.controls['codprov'].setValue('');
     this.areasEdForm.controls['direccion'].setValue('');
     this.areasEdForm.controls['codCanton'].setValue('');
-    this.action_button = 'crear';
+    this.areasEdForm.controls['idInstitutos'].setValue(null);
+    this.action_button = 'Crear';
     this.show_crear = false;
   }
 
@@ -298,6 +305,21 @@ export class ProfesoresComponent implements OnInit {
 
   submitCurriculum() {
 
+  }
+
+  listaDeInstitutos: any = [];
+  listaDeInstitutosGhost: any = [];
+  obtenerIntituto() {
+    this.instituto.obtenerInstitutos( this.coduser ).subscribe({
+      next: (x) => {
+        this.listaDeInstitutos = x;
+        this.listaDeInstitutosGhost = x;
+      }, error: (e) => {
+        console.error(e);
+      }, complete: () => {
+        console.log(this.listaDeInstitutos);
+      }
+    })
   }
 
 }

@@ -48,11 +48,23 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
   show_administrer: any = true;
   private decrypt: any;
 
+  tiempoRestante: any;
+  private intervalSubscription!: Subscription;
+
   idestudiante:any;
   passestudiante:any;
   codigoEstudiante:any;
   idcurso:any;
   idAsignacionCurso:any;
+  filterEstud: any;
+
+  modalidad_curso: any;
+  institucion_curso: any;
+  fechaini_curso: any;
+  fechafin_curso: any;
+  horaInicial_curso: any;
+  horafinal_curso: any;
+  fechainscripFin_curso: any;
 
   param1: any;
   param2: any;
@@ -66,6 +78,11 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
       telefono:     new FormControl(''),
       observacion:  new FormControl(''),
       curso:        new FormControl('')
+    }
+  );
+  
+  public paralelosForm = new FormGroup ({
+      paralelos:       new FormControl(true)
     }
   );
 
@@ -134,7 +151,6 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
     }
     
   }
-
 
   ngOnDestroy(): void {
     if (this.intervalSubscription) {
@@ -292,7 +308,6 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
 
   }
 
-  filterEstud: any;
   filterEstudiante () {
     this.filterEstud = this.filterForm.controls['filterEstud'].value;
     this.listaEstudiantes = this.listaEstudiantesGhost.filter((item:any) => 
@@ -431,6 +446,7 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
 
     this.action_button = 'Crear';
 
+
   }
 
   cancel() {
@@ -438,14 +454,6 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
                        .setValue('');
   }
 
-
-  modalidad_curso: any;
-  institucion_curso: any;
-  fechaini_curso: any;
-  fechafin_curso: any;
-  horaInicial_curso: any;
-  horafinal_curso: any;
-  fechainscripFin_curso: any;
   obtenerCursos(data: any, type: number) {
     this.curso.obtenerCursos(data, type).subscribe({
       next: (x) => {
@@ -491,10 +499,6 @@ export class EstudiantesComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-  // fechainscripFin_curso: any = '2024-12-31T23:59:59';
-  tiempoRestante: any;
-  private intervalSubscription!: Subscription;
 
   private actualizarTemporizador(): void {
     const fechaFin = new Date(this.fechainscripFin_curso).getTime();

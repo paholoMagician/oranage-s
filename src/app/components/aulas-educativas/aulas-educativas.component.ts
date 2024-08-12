@@ -5,6 +5,8 @@ import { EncryptService } from 'src/app/shared/services/encrypt.service';
 import Swal from 'sweetalert2'
 import { AulasEducativasService } from './services/aulas-educativas.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { ProfesoresService } from '../profesores/services/profesores.service';
+import { AreasService } from '../areas/services/areas.service';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -23,49 +25,83 @@ const Toast = Swal.mixin({
   styleUrls: ['./aulas-educativas.component.scss']
 })
 export class AulasEducativasComponent implements OnInit {
+  action_head_asign:         string = 'Crear';
+  _show_spinner:             boolean = false;
+  action_head:               string = 'Crear';
+  action_button_aulas:       string = 'Crear';
+  action_button_asignacion:  string = 'Crear';
+  modelAulasEducativas:      any = [];
+  listaAulasEducativas:      any = [];
+  listaAulasEducativasGhost: any = [];
+  showFormCreateAsignacion:  boolean = false;
+  modelAsignacionAcademicoAulasProfesor: any = [];
+  listaFrecuencias: any = [];
+  listaProfesores: any = [];
+  listaAreaAcademica: any = [];
+  usercrea: any;
+  showFormCreate: boolean = false;
+  filterAulasEAsignacionAcademicoAulasProf: any;
+  IDAsignacionAcademicoAulasProfesor: any;
 
-  _show_spinner: boolean = false;
-  action_head:string = 'Crear';
-  action_button_aulas: string = 'Crear';
-  modelAulasEducativas: any = [];
-  listaAulasEducativas: any = []
-  listaAulasEducativasGhost: any = []
-
+  idAulasEducativas: number = 0;
+  listaAsignacionAcademicoAulasProfesor: any = [];
+  listaAsignacionAcademicoAulasProfesorGhost: any = [];
+  filterAulasEd: any;
+  
   public aulasEducativasForm = new FormGroup ({
-    nombre:  new FormControl(''),
+    nombre:            new FormControl(''),
     descripcion:       new FormControl(''),
     cantidadAlumnos:   new FormControl(''),
     jornada:           new FormControl(''),
   });
 
-  public filterForm = new FormGroup(
-    {
+  public asignacionAcademicaAulasProfesorForm = new FormGroup ({
+    idAulaEducativa:  new FormControl(''),
+    idProfesor:       new FormControl(''),
+    idMateria:        new FormControl(''),
+    observacion:      new FormControl('')
+  });
+
+  public filterForm = new FormGroup({
       filterAulas:   new FormControl('')
     }
   )
 
+  public filterFormAsignacion = new FormGroup({
+      filterAsign:   new FormControl('')
+    }
+  )
+  
   ngOnInit(): void {
+    let x: any = sessionStorage.getItem('c_c_r_u');
+    this.usercrea = this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl);
     this.getDataMaster('JO01');
     this.ObtenerAulasEducativas();
+    this.obtenerProfesores();
+    this.obtenerAreaAcademica();
+    this.obtenerAsignacionAcademicoAulasProfesor();
   }
 
-  constructor( private sharedservs: SharedService, private env: Environments, private ncrypt: EncryptService, private aulas: AulasEducativasService) {}
+  constructor( private sharedservs: SharedService, 
+               private env: Environments,
+               private ncrypt: EncryptService,
+               private aulas: AulasEducativasService,
+               private profesor: ProfesoresService,
+               private area: AreasService, ) {}
 
   guardarAulasEducativas() {
-
-    let x: any = sessionStorage.getItem('c_c_r_u');
     this.modelAulasEducativas = {
       nombre:          this.aulasEducativasForm.controls['nombre'].value,
       descripcion:     this.aulasEducativasForm.controls['descripcion'].value,
       jornada:         this.aulasEducativasForm.controls['jornada'].value,
       cantidadAlumnos: this.aulasEducativasForm.controls['cantidadAlumnos'].value,
-      fecrea: new Date(),
-      usercrea: this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl),
+      fecrea:          new Date(),
+      usercrea:        this.usercrea,
       estado: 1,
       permisos: 1
     }
 
-    if ( this.aulasEducativasForm.controls['nombre'].value == undefined || this.aulasEducativasForm.controls['nombre'].value == null || this.aulasEducativasForm.controls['nombre'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del aula educativa vacía.'} )
+    if      ( this.aulasEducativasForm.controls['nombre'].value == undefined || this.aulasEducativasForm.controls['nombre'].value == null || this.aulasEducativasForm.controls['nombre'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del aula educativa vacía.'} )
     else if ( this.aulasEducativasForm.controls['cantidadAlumnos'].value == undefined || this.aulasEducativasForm.controls['cantidadAlumnos'].value == null || this.aulasEducativasForm.controls['cantidadAlumnos'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la cantidad de alumnos vacío.'} )
     else if ( this.aulasEducativasForm.controls['jornada'].value == undefined || this.aulasEducativasForm.controls['jornada'].value == null || this.aulasEducativasForm.controls['jornada'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la jornada vacía.'} )
     else {
@@ -76,7 +112,7 @@ export class AulasEducativasComponent implements OnInit {
         next: (x) => {
           Toast.fire({
             icon: 'success',
-            title: 'Aula generada generado'
+            title: 'Aula generada correctamente'
           })
           this._show_spinner = false;
         }, error: (e) => {
@@ -88,6 +124,7 @@ export class AulasEducativasComponent implements OnInit {
           console.error(e);
         }, complete: () => {
           this.ObtenerAulasEducativas();
+          this.limpiar();
         }
       })
     }
@@ -95,7 +132,6 @@ export class AulasEducativasComponent implements OnInit {
 
   actualizarAulasEduactivas() {
 
-    let x: any = sessionStorage.getItem('c_c_r_u');
     this.modelAulasEducativas = {
       id:              this.idAulasEducativas,
       nombre:          this.aulasEducativasForm.controls['nombre'].value,
@@ -103,7 +139,7 @@ export class AulasEducativasComponent implements OnInit {
       jornada:         this.aulasEducativasForm.controls['jornada'].value,
       cantidadAlumnos: this.aulasEducativasForm.controls['cantidadAlumnos'].value,
       fecrea:          new Date(),
-      usercrea:        this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl),
+      usercrea:        this.usercrea,
       estado:          1,
       permisos:        1
     }
@@ -119,7 +155,7 @@ export class AulasEducativasComponent implements OnInit {
         next: (x) => {
           Toast.fire({
             icon: 'success',
-            title: 'Aula generada generado'
+            title: 'Aula generada correctamente'
           })
           this._show_spinner = false;
         }, error: (e) => {
@@ -131,6 +167,7 @@ export class AulasEducativasComponent implements OnInit {
           console.error(e);
         }, complete: () => {
           this.ObtenerAulasEducativas();
+          this.limpiar();
         }
 
       })
@@ -139,8 +176,7 @@ export class AulasEducativasComponent implements OnInit {
 
   ObtenerAulasEducativas() {
     this._show_spinner = true;
-    let x: any = sessionStorage.getItem('c_c_r_u');
-    this.aulas.obtenerAulasEducativas(this.ncrypt.decryptWithAsciiSeed(x, this.env.seed, this.env.hashlvl)).subscribe({
+    this.aulas.obtenerAulasEducativas(this.usercrea).subscribe({
       next:(x) => {
         this.listaAulasEducativas      = x;
         this.listaAulasEducativasGhost = x;
@@ -152,7 +188,32 @@ export class AulasEducativasComponent implements OnInit {
     })
   }
 
-  listaFrecuencias: any = [];
+  obtenerProfesores() {
+    this._show_spinner = true;
+    this.profesor.obtenerProfesores(this.usercrea).subscribe({
+      next: (x) => {
+        this.listaProfesores = x;
+        this._show_spinner = false;
+      }, error: (e) => {
+        console.error(e);
+        this._show_spinner = false;
+      }
+    })
+  }
+
+  obtenerAreaAcademica() {
+    this._show_spinner = true;
+    this.area.obtenerAreas(this.usercrea, 'academico').subscribe({
+      next: (x) => {
+        this.listaAreaAcademica = x;
+        this._show_spinner = false;
+      }, error: (e) => {
+        console.error(e);
+        this._show_spinner = false;
+      }
+    })
+  }
+
   getDataMaster(cod:string) {
     this.sharedservs.getDataMaster(cod).subscribe({
       next: (data) => {
@@ -164,7 +225,7 @@ export class AulasEducativasComponent implements OnInit {
         }
       }
     })
-  }
+  } 
 
   submitMaterias() {
 
@@ -194,7 +255,7 @@ export class AulasEducativasComponent implements OnInit {
           next: (x) => {
             Swal.fire({
               title: "Eliminado!",
-              text:  "El profesor ha sido eliminado.",
+              text:  "Al asignaci ha sido eliminado.",
               icon:  "success"
             });
           }, error: (e) => {
@@ -212,7 +273,6 @@ export class AulasEducativasComponent implements OnInit {
     });
   }
 
-  showFormCreate: boolean = false;
   limpiar() {
     this.aulasEducativasForm.controls['nombre'].setValue('');
     this.aulasEducativasForm.controls['descripcion'].setValue('');
@@ -223,7 +283,6 @@ export class AulasEducativasComponent implements OnInit {
     this.showFormCreate = false;
   }
 
-  idAulasEducativas: number = 0;
   catchDataAulas (data:any) {
     console.warn(data)
     let jornada: any = data.jornada;
@@ -237,7 +296,6 @@ export class AulasEducativasComponent implements OnInit {
     this.showFormCreate = true;
   }
 
-  filterAulasEd: any;
   filterAulasEde () {
     this.filterAulasEd = this.filterForm.controls['filterAulas'].value;
     this.listaAulasEducativas = this.listaAulasEducativasGhost.filter((item:any) => 
@@ -246,5 +304,165 @@ export class AulasEducativasComponent implements OnInit {
     );
   }
 
+  submitAsignacionAulasMateProf() {
+    switch(this.action_head_asign) {
+      case 'Crear':
+        this.guardarAsignacionAcademicoAulasProfesor();
+        break;
+      case 'Actualizar':
+        this.actualizarAsignacionAcademicoAulasProfesor();
+        break;
+    }
+  }
+
+  limpiarAsignacion() {
+    this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].setValue(null);
+    this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].setValue(null);
+    this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].setValue(null);
+    this.asignacionAcademicaAulasProfesorForm.controls['observacion'].setValue('');
+    this.action_head_asign        = 'Crear';
+    this.action_button_asignacion = 'Crear';
+    this.showFormCreateAsignacion = false;
+  }
+
+  catchDataAsignacion(data:any) {
+    this.IDAsignacionAcademicoAulasProfesor = data.id;
+    this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].setValue(data.idAulaEducativa);
+    this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].setValue(data.idProfesor);
+    this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].setValue(data.idMateria); 
+    this.asignacionAcademicaAulasProfesorForm.controls['observacion'].setValue(data.observacion);
+    this.action_head_asign        = 'Actualizar';
+    this.action_button_asignacion = 'Actualizar';
+    this.showFormCreateAsignacion = true;
+  }
+
+  guardarAsignacionAcademicoAulasProfesor() {
+    if ( this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value == undefined || this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value == null || this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el aula educativa vacía.'} )
+    else if ( this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value == undefined || this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value == null || this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el profesor vacío.'} )
+    else if ( this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value == undefined || this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value == null || this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la materia vacío.'} )
+    
+    this.modelAsignacionAcademicoAulasProfesor = {
+      idAulaEducativa: this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value,
+      idProfesor:      this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value,
+      idMateria:       this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value,
+      observacion:     this.asignacionAcademicaAulasProfesorForm.controls['observacion'].value,
+      fecrea:          new Date(),
+      usercrea:        this.usercrea,
+      estado:          1,
+      permisos:        1
+    }
+    
+    this._show_spinner = true;
+    this.aulas.guardarAsignacionAcademicoAulasProfesor(this.modelAsignacionAcademicoAulasProfesor).subscribe({
+      next: (x) => {
+        Toast.fire({
+          icon: 'success',
+          title: 'Asignación generada correctamente'
+        })
+        this._show_spinner = false;
+      },error: (e) => {
+        Toast.fire({
+          icon: 'error',
+          title: 'Oops algo ha pasado!'
+        })
+        this._show_spinner = false;
+      }, complete: () => {
+        this.limpiarAsignacion();
+        this.obtenerAsignacionAcademicoAulasProfesor();
+      }
+    })
+
+  }
+
+  actualizarAsignacionAcademicoAulasProfesor() {
+    if ( this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value == undefined || this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value == null || this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el aula educativa vacía.'} )
+    else if ( this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value == undefined || this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value == null || this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el profesor vacío.'} )
+    else if ( this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value == undefined || this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value == null || this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la materia vacío.'} )
+    
+    this.modelAsignacionAcademicoAulasProfesor = {
+      id:              this.IDAsignacionAcademicoAulasProfesor,
+      idAulaEducativa: this.asignacionAcademicaAulasProfesorForm.controls['idAulaEducativa'].value,
+      idProfesor:      this.asignacionAcademicaAulasProfesorForm.controls['idProfesor'].value,
+      idMateria:       this.asignacionAcademicaAulasProfesorForm.controls['idMateria'].value,
+      observacion:     this.asignacionAcademicaAulasProfesorForm.controls['observacion'].value,
+      fecrea:          new Date(),
+      usercrea:        this.usercrea,
+      estado:          1,
+      permisos:        1
+    }
+    
+    this._show_spinner = true;
+    this.aulas.ActualizarAsignacionAcademicoAulasProfesor(this.IDAsignacionAcademicoAulasProfesor, this.modelAsignacionAcademicoAulasProfesor).subscribe({
+      next: (x) => {
+        Toast.fire({
+          icon: 'success',
+          title: 'Asignación actualziada correctamente'
+        })
+        this._show_spinner = false;
+      },error: (e) => {
+        Toast.fire({
+          icon: 'error',
+          title: 'Oops algo ha pasado!'
+        })
+        this._show_spinner = false;
+      }, complete: () => {
+        this.limpiarAsignacion();
+        this.obtenerAsignacionAcademicoAulasProfesor();
+      }
+    })
+
+  }
+
+  eliminarAsignacionAcademicoAulasProfesor(id:any, i:number) {
+    Swal.fire({
+      title: "Estás segur@?",
+      text:  "Esta acción es irreversible y puede provocar perdidad de datos!",
+      icon:  "warning",
+      showCancelButton:   true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor:  "#d33",
+      confirmButtonText:  "Sí, eliminar!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.aulas.EliminarAsignacionAcademicoAulasProfesor( id ).subscribe({
+          next: (x) => {
+            Swal.fire({
+              title: "Eliminado!",
+              text:  "La asignación ha sido eliminada.",
+              icon:  "success"
+            });
+          }, error: (e) => {
+            Swal.fire({
+              title: "Oops!",
+              text: "Intentalo más tarde.",
+              icon: "error"
+            });
+            console.error(e);
+          }, complete: () => {
+            this.listaAsignacionAcademicoAulasProfesor.splice( i, 1 );
+          }
+        })
+      }
+    });
+  }
+
+  obtenerAsignacionAcademicoAulasProfesor() {
+    this.aulas.obtenerAsignacionAcademicoAulasProfesor(this.usercrea).subscribe({
+      next: (x) => {
+        this.listaAsignacionAcademicoAulasProfesor = x;
+        this.listaAsignacionAcademicoAulasProfesorGhost = x;
+        console.warn(this.listaAsignacionAcademicoAulasProfesor)
+      }
+    })
+  }
+
+  filterAsignacionAcademicoAulasProfesor () {
+    this.filterAulasEAsignacionAcademicoAulasProf = this.filterFormAsignacion.controls['filterAsign'].value;
+    this.listaAsignacionAcademicoAulasProfesor    = this.listaAsignacionAcademicoAulasProfesorGhost.filter((item:any) => 
+      item.nombreAulaEducativa .toLowerCase().includes(this.filterAulasEAsignacionAcademicoAulasProf.toLowerCase()) ||
+      item.nombreMateria       .toLowerCase().includes(this.filterAulasEAsignacionAcademicoAulasProf.toLowerCase()) ||
+      item.nombreProfesor      .toLowerCase().includes(this.filterAulasEAsignacionAcademicoAulasProf.toLowerCase()) 
+    );
+  }
 
 }

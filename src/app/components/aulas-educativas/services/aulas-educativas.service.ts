@@ -13,6 +13,22 @@ export class AulasEducativasService {
     return this.http.post( this.url.apiurl() + 'AulasEducativas/guardarAulasEducativas', model );
   }
 
+  guardarAsignacionAcademicoAulasProfesor(model:any) {
+    return this.http.post( this.url.apiurl() + 'AsignacionAcademicoAulasProfesor/guardarAsignacionAcademicoAulasProfesor', model );
+  }
+
+  ActualizarAsignacionAcademicoAulasProfesor(id: number, model:any) {
+    return this.http.put( this.url.apiurl() + 'AsignacionAcademicoAulasProfesor/ActualizarAsignacionAcademicoAulasProfesor/' + id, model );
+  }
+
+  EliminarAsignacionAcademicoAulasProfesor(id: number) {
+    return this.http.get( this.url.apiurl() + 'AsignacionAcademicoAulasProfesor/EliminarAsignacionAcademicoAulasProfesor/' + id );
+  }
+
+  obtenerAsignacionAcademicoAulasProfesor(usercrea:any) {
+    return this.http.get( this.url.apiurl() + 'AsignacionAcademicoAulasProfesor/ObtenerAsignacionAcademicoAulasProfesor/' + usercrea );
+  }
+
   actualizarAulasEduactivas(id:number, model:any) {
     return this.http.put( this.url.apiurl() + 'AulasEducativas/ActualizarAulasEduactivas/'+ id, model );
   }

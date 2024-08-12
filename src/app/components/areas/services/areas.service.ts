@@ -17,12 +17,20 @@ export class AreasService {
     return this.http.post( this.url.apiurl() + 'AreaEstudiantil/guardarAreaAcademica', model );
   }
 
+  guardarMaterias(model:any[]) {
+    return this.http.post( this.url.apiurl() + 'Materias/guardarMaterias', model );
+  }
+
   ActualizarAreaEducativa(id: number, model:any[]) {
     return this.http.put( this.url.apiurl() + 'AreaEstudiantil/ActualizarAreaEducativa/' + id, model );
   }
 
   ActualizarAreaAcademica(id: number, model:any[]) {
     return this.http.put( this.url.apiurl() + 'AreaEstudiantil/ActualizarAreaAcademica/' + id, model );
+  }
+
+  ActualizarMateria(id: number, model:any[]) {
+    return this.http.put( this.url.apiurl() + 'Materias/ActualizarMateria/' + id, model );
   }
 
   obtenerAreas(usercrea: string, tipo: string) {
@@ -35,6 +43,10 @@ export class AreasService {
 
   EliminarAreaEducativa(id: number) {
     return this.http.get( this.url.apiurl() + 'AreaEstudiantil/EliminarAreaEducativa/' + id );
+  }
+
+  EliminarMaterias(id: number) {
+    return this.http.get( this.url.apiurl() + 'Materias/eliminarMateria/' + id );
   }
   
 }

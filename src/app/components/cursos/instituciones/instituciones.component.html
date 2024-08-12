@@ -5,7 +5,7 @@
 </div>
 <div class="container-fluid p-3">
     
-    <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn"
+    <div class=" module-works mb-2 d-flex flex-column animate__animated animate__bounceIn "
          *ngIf="_institutos">
         <div class="p-1">
              <span class="text-secondary">
@@ -67,6 +67,30 @@
                                id="celular">
                     </div>
                 </div>
+                <div class="d-flex m-1 ">
+                    <div class="m-1 col-3">
+                        <label class="text-secondary" 
+                               for="inicioAnioLectivo">
+                               Fecha inicial del año lectivo:
+                        </label>
+                        <input class="input-or form-control form-control-sm"
+                               type="date"
+                               formControlName="inicioAnioLectivo"
+                               #inicioAnioLectivo
+                               id="inicioAnioLectivo">
+                    </div>
+                    <div class="m-1 col-3">
+                        <label class="text-secondary"
+                               for="finAnioLectivo">
+                               Fecha final del año lectivo:
+                        </label>    
+                        <input class="input-or form-control form-control-sm"
+                               type="date"
+                               formControlName="finAnioLectivo"
+                               #finAnioLectivo
+                               id="finAnioLectivo">
+                    </div>
+                </div>
                 <div class="m-1 col">
                     <label for="descripcion"
                            class="text-secondary">
@@ -92,7 +116,7 @@
             </form>
         </div>
     </div>
-    <div class="subworks w-100 d-flex justify-content-between mt-2">
+    <div class=" subworks w-100 d-flex justify-content-between mt-2 ">
         <div class="wbox bg-light">
             <div class="d-flex flex-column">                
                 <div class="fs-5 d-flex align-items-center justify-content-between">
@@ -285,4 +309,5 @@
             </div>
         </div>
     </div>
+    
 </div>

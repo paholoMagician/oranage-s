@@ -61,7 +61,9 @@ export class InstitucionesComponent implements OnInit {
       alias:             new FormControl(''),
       celular:           new FormControl(''),
       estado:            new FormControl(''),
-      fechaCrea:         new FormControl('')
+      fechaCrea:         new FormControl(''),
+      inicioAnioLectivo: new FormControl(''),
+      finAnioLectivo:    new FormControl('')
     }
   );
 
@@ -111,6 +113,10 @@ export class InstitucionesComponent implements OnInit {
     else if ( this.institucionForm.controls['ruc'].value == undefined || this.institucionForm.controls['ruc'].value == null || this.institucionForm.controls['ruc'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el R.U.C. de la institución vacío.'} )
     else if ( this.institucionForm.controls['encargado'].value == undefined || this.institucionForm.controls['encargado'].value == null || this.institucionForm.controls['encargado'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del encargado de la institución vacío.'} )
     else if ( this.institucionForm.controls['numeroTelefono'].value == undefined || this.institucionForm.controls['numeroTelefono'].value == null || this.institucionForm.controls['numeroTelefono'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el numero de teléfono de la institución vacío.'} )
+    else if (this.institucionForm.controls['inicioAnioLectivo'].value      == undefined 
+        || this.institucionForm.controls['inicioAnioLectivo'].value    == null || this.institucionForm.controls['inicioAnioLectivo'].value    == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la fecha inicia del año lectivo  vacío.'})
+    else if (this.institucionForm.controls['finAnioLectivo'].value      == undefined 
+        || this.institucionForm.controls['finAnioLectivo'].value    == null || this.institucionForm.controls['finAnioLectivo'].value    == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la fecha final del año lectivo  vacío.'})
     else {
       const xuser: any = sessionStorage.getItem('c_c_r_u');
       const decrypt = this.ncrypt.decryptWithAsciiSeed(xuser, this.env.seed, this.env.hashlvl);
@@ -122,6 +128,8 @@ export class InstitucionesComponent implements OnInit {
         encargado:         this.institucionForm.controls['encargado'].value,
         numeroTelefono:    this.institucionForm.controls['numeroTelefono'].value,
         celular:           this.institucionForm.controls['celular'].value,
+        inicioAnioLectivo: this.institucionForm.controls['inicioAnioLectivo'].value,
+        finAnioLectivo:    this.institucionForm.controls['finAnioLectivo'].value,
         estado:            1,
         fechaCrea:         new Date(),
         logtipourl:        "",
@@ -152,16 +160,27 @@ export class InstitucionesComponent implements OnInit {
   }
 
   actualizarIntituto() {
-    if      (this.institucionForm.controls['nombreInstitucion'].value   == undefined 
-            || this.institucionForm.controls['nombreInstitucion'].value == null || this.institucionForm.controls['nombreInstitucion'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre de la institución vacío.'})
-    else if (this.institucionForm.controls['descripcion'].value         == undefined 
-            || this.institucionForm.controls['descripcion'].value       == null || this.institucionForm.controls['descripcion'].value       == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la descripción de la institución vacía.'})
-    else if (this.institucionForm.controls['ruc'].value                 == undefined 
-            || this.institucionForm.controls['ruc'].value               == null || this.institucionForm.controls['ruc'].value               == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el R.U.C. de la institución vacío.'})
-    else if (this.institucionForm.controls['encargado'].value           == undefined 
-            || this.institucionForm.controls['encargado'].value         == null || this.institucionForm.controls['encargado'].value         == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del encargado de la institución vacío.'})
-    else if (this.institucionForm.controls['numeroTelefono'].value      == undefined 
-            || this.institucionForm.controls['numeroTelefono'].value    == null || this.institucionForm.controls['numeroTelefono'].value    == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el numero de teléfono de la institución vacío.'})
+    if      (this.institucionForm  .controls['nombreInstitucion'].value == undefined 
+            || this.institucionForm.controls['nombreInstitucion'].value == null || 
+               this.institucionForm.controls['nombreInstitucion'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre de la institución vacío.'})
+    else if (this.institucionForm  .controls['descripcion'].value       == undefined 
+            || this.institucionForm.controls['descripcion'].value       == null || 
+               this.institucionForm.controls['descripcion'].value       == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la descripción de la institución vacía.'})
+    else if (this.institucionForm  .controls['ruc'].value               == undefined 
+            || this.institucionForm.controls['ruc'].value               == null || 
+               this.institucionForm.controls['ruc'].value               == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el R.U.C. de la institución vacío.'})
+    else if (this.institucionForm  .controls['encargado'].value         == undefined 
+            || this.institucionForm.controls['encargado'].value         == null || 
+               this.institucionForm.controls['encargado'].value         == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el nombre del encargado de la institución vacío.'})
+    else if (this.institucionForm  .controls['numeroTelefono'].value    == undefined 
+            || this.institucionForm.controls['numeroTelefono'].value    == null || 
+               this.institucionForm.controls['numeroTelefono'].value    == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar el numero de teléfono de la institución vacío.'})
+    else if (this.institucionForm  .controls['inicioAnioLectivo'].value == undefined 
+            || this.institucionForm.controls['inicioAnioLectivo'].value == null || 
+               this.institucionForm.controls['inicioAnioLectivo'].value == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la fecha inicia del año lectivo  vacío.'})
+    else if (this.institucionForm  .controls['finAnioLectivo'].value    == undefined 
+            || this.institucionForm.controls['finAnioLectivo'].value    == null || 
+               this.institucionForm.controls['finAnioLectivo'].value    == '') Toast.fire({ icon: 'warning', title: 'No puedes dejar la fecha final del año lectivo  vacío.'})
     else {
       this._show_spinner = true;
       const xuser: any = sessionStorage.getItem('c_c_r_u');
@@ -175,6 +194,8 @@ export class InstitucionesComponent implements OnInit {
         numeroTelefono:    this.institucionForm.controls['numeroTelefono'].value,
         celular:           this.institucionForm.controls['celular'].value,  
         estado:            1,
+        inicioAnioLectivo: this.institucionForm.controls['inicioAnioLectivo'].value,
+        finAnioLectivo:    this.institucionForm.controls['finAnioLectivo'].value,
         fechaCrea:         new Date(),
         logtipourl:        this.imginst,
         usercrea:          decrypt
@@ -314,6 +335,11 @@ export class InstitucionesComponent implements OnInit {
   }
 
   catchData( data:any ) {
+    console.warn(data);
+
+    let inicioAnioLectivo: any = data.inicioAnioLectivo.toString().split('T');
+    let fincioAnioLectivo: any = data.finAnioLectivo.toString().split('T');
+
     this.show_update_img = true;
     this.institucionForm
         .controls['nombreInstitucion']
@@ -336,7 +362,8 @@ export class InstitucionesComponent implements OnInit {
     this.idInstituto   = data.idintituto;
     this.action_button = 'Editar';
     this.imginst       = data.logtipourl;
-    // this.imagenInstituto = this.env.apiUrlStorageIntituto() + data.logtipourl;
+    this.institucionForm.controls['inicioAnioLectivo'].setValue(inicioAnioLectivo[0]);
+    this.institucionForm.controls['finAnioLectivo'].setValue(fincioAnioLectivo[0]);
   }
   
   limpiar() {
@@ -346,6 +373,8 @@ export class InstitucionesComponent implements OnInit {
     this.institucionForm.controls['encargado'].setValue('');
     this.institucionForm.controls['numeroTelefono'].setValue('');
     this.institucionForm.controls['celular'].setValue('');
+    this.institucionForm.controls['inicioAnioLectivo'].setValue(null);
+    this.institucionForm.controls['finAnioLectivo'].setValue(null);
     this.action_button   = 'Crear';
     this.show_update_img = false;
     this._institutos     = false;

@@ -4,27 +4,49 @@
     </div>
 </div>
 
-
-
-<div class="container-fluid p-3">
-    
-    <div class="title module-works mb-2" *ngIf="show_no_administrer" >
-
-        <span class="fs-4 d-flex justify-content-between" >
-            <span> FORMULARIO DE REGISTRO PARA EL CURSO DE </span> <span class="text-primary" > <strong> " {{curso_detect | uppercase }} " </strong> </span> 
+<div class="container-fluid p-3">    
+    <div class="title module-works mb-2" *ngIf="show_administrer" >
+        <form [formGroup]="paralelosForm">
+            <div class="m-1 d-flex justify-content-start align-items-center w-25">
+                <label class="text-secondary" for="paralelos">
+                    Inscribir alumno a los paralelos:
+                </label>
+                <input class=""
+                        style="width: 50px;"
+                       type="checkbox"
+                       formControlName="paralelos"
+                       #paralelos
+                       id="paralelos">
+            </div>
+        </form>
+    </div>
+    <div class="title module-works mb-2" *ngIf="show_no_administrer">
+        <span class="fs-4 d-flex justify-content-between">
+            <span> 
+                FORMULARIO DE REGISTRO PARA EL CURSO DE
+            </span>
+            <span class="text-primary" >
+                <strong> " {{ curso_detect | uppercase }} " </strong>
+            </span> 
         </span>
     </div>
-    <div class="title module-works mb-2" *ngIf="show_no_administrer" >
-
+    <div class="title module-works mb-2" *ngIf="show_no_administrer">
         <div class="fs-5 d-flex justify-content-between">
             <span> Detalles técnicos: </span>
-            <span class="text-secondary" style="font-size: 13pt;"> Fecha fin de la inscripción: <strong class="text-primary"> {{ fechainscripFin_curso | date: 'dd-MM-yyyy' }} </strong> </span>
             <span class="text-secondary" style="font-size: 13pt;">
-                <span class="text-secondary" style="font-size: 13pt;"> Tiempo en días - horas - minutos - segundos: <strong class="text-primary">{{ tiempoRestante }}</strong></span>
+                Fecha fin de la inscripción:
+                <strong class="text-primary"> {{ fechainscripFin_curso | date: 'dd-MM-yyyy' }} </strong>
+            </span>
+            <span class="text-secondary" style="font-size: 13pt;">
+                <span class="text-secondary" style="font-size: 13pt;">
+                    Tiempo en días - horas - minutos - segundos:
+                    <strong class="text-primary">{{ tiempoRestante }}</strong>
+                </span>
             </span>
         </div>
         <hr>
-        <div class="p-2 shadow rounded-1 " style="border: dashed 1px gray; background-color: rgb(56, 56, 56);">
+        <div class="p-2 shadow rounded-1 "
+             style="border: dashed 1px gray; background-color: rgb(56, 56, 56);">
             <div class="text-light p-1 fs-6 mb-1" style="border-bottom: solid 1px rgb(200, 200, 200);">
                 <span> Modalidad del curso: </span> 
                 <span class="text-warning">
@@ -59,8 +81,7 @@
                     <strong> {{ horafinal_curso }} </strong> 
                 </span>
             </div>
-        </div>
-    
+        </div>    
     </div>
 
     <div class="module-works mb-2 d-flex flex-column animate__animated animate__bounceIn">

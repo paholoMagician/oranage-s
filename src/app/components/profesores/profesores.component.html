@@ -76,6 +76,21 @@
                                    #cedula
                                    id="cedula">
                         </div>
+                        <div class="m-1 col-2">
+                            <label for="idInstitutos" class="text-secondary">
+                                Institutos:
+                            </label>
+                            <select class="inpForms form-select form-select-sm w-100"
+                                    formControlName="idInstitutos"
+                                    #idInstitutos
+                                    id="idInstitutos"
+                                    aria-label="">
+                                    <option *ngFor="let institutos of listaDeInstitutos"
+                                            [value]="institutos.id">
+                                            {{institutos.nombreInstitucion | titlecase }}
+                                    </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="m-1">
                         <label class="text-secondary" for="observacion">
@@ -206,6 +221,9 @@
                     <th>
                         Direccion
                     </th>
+                    <th>
+                        Institucion
+                    </th>
                     <th>                        
                     </th>
                 </thead>
@@ -237,6 +255,9 @@
                         </td>                    
                         <td >
                             {{profesor.direccion}}
+                        </td>
+                        <td>
+                            {{profesor.nombreInstitucion}}
                         </td>                    
                         <td>
                             <div class="d-flex">

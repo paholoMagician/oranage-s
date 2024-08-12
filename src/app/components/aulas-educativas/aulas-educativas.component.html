@@ -4,7 +4,8 @@
     </div>
 </div>
 
-<div class="container-fluid p-3">
+<div class="container-fluid d-flex justify-content-between p-3">
+    <div class="d-flex flex-column w-50 p-2" >
     <div class="module-works mb-2 d-flex flex-column 
                 animate__animated animate__bounceIn" *ngIf="showFormCreate">
         <div class="p-1 d-flex justify-content-between">
@@ -157,5 +158,163 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    </div>
+    <div class="d-flex flex-column w-50 p-2" >
+        <div class="module-works mb-2 d-flex flex-column              
+                animate__animated animate__bounceIn" *ngIf="showFormCreateAsignacion" >
+            <div class="p-1 d-flex justify-content-between">
+                <span class="text-secondary">
+                    {{action_head_asign}} Asignacion Aulas Educativas, Profesores y Materias:
+                </span>
+            </div>
+            <hr>
+            <div class="w-100">
+                <form [formGroup]="asignacionAcademicaAulasProfesorForm" 
+                      class="w-100"
+                      (ngSubmit)="submitAsignacionAulasMateProf()">
+                      <div class="d-flex justify-content-between flex-wrap align-items-end ">
+                        <div class="m-1 col-3">
+                            <label for="idAulaEducativa" class="text-secondary">
+                                Aulas Educativas:
+                            </label>
+                            <select class="inpForms form-select form-select-sm w-100"
+                                    formControlName="idAulaEducativa"
+                                    #idAulaEducativa
+                                    id="idAulaEducativa"
+                                    aria-label="">
+                                    <option *ngFor="let aulas of listaAulasEducativas"
+                                            [value]="aulas.id">
+                                            {{aulas.nombre | titlecase }}
+                                    </option>
+                            </select>
+                        </div>
+                        <div class="m-1 col-4">
+                            <label for="idProfesor" 
+                                   class="text-secondary">
+                                   Profesor:
+                            </label>
+                            <select class="inpForms form-select form-select-sm w-100"
+                                    formControlName="idProfesor"
+                                    #idProfesor
+                                    id="idProfesor"
+                                    aria-label="">
+                                    <option *ngFor="let profesores of listaProfesores"
+                                            [value]="profesores.id">
+                                            {{profesores.nombre | titlecase }}
+                                    </option>
+                            </select>
+                        </div>
+                        <div class="m-1 col-4">
+                            <label for="idMateria"
+                                   class="text-secondary">
+                                   Materia:
+                            </label>
+                            <select class="inpForms form-select form-select-sm w-100"
+                                    formControlName="idMateria"
+                                    #idMateria
+                                    id="idMateria"
+                                    aria-label="">
+                                    <option *ngFor="let materias of listaAreaAcademica"
+                                            [value]="materias.id">
+                                            {{materias.nombreArea | titlecase }}
+                                    </option>
+                            </select>
+                        </div>
+                        <div class="m-1 col-6">
+                            <label class="text-secondary" for="observacion">
+                                Observación:
+                            </label>
+                            <input class="input-or form-control form-control-sm"
+                                   type="text"
+                                   maxlength="200"
+                                   formControlName="observacion"
+                                   #observacion
+                                   id="observacion">
+                        </div>
+                        <div class="btn-settings p-1 w-25 d-flex justify-content-end" >
+                            <button type="button" class="btn btn-danger btn-sm d-flex align-items-center"
+                                    (click)="limpiarAsignacion();">
+                                    <i class="pi pi-times-circle"></i>
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-outline-dark btn-sm">
+                                    <i class="pi pi-save"></i> {{ action_button_asignacion }}
+                            </button>
+                        </div>
+                      </div>
+                </form>
+            </div>
+        </div>
+        <div class="module-works mb-2 d-flex flex-column
+                animate__animated animate__bounceIn">
+        <div class="p-1 d-flex justify-content-between align-items-center">
+            <span class="text-secondary">
+                Asignaciones creadas:
+                <strong class="fs-6">({{listaAsignacionAcademicoAulasProfesor.length}})</strong>
+            </span>            
+            <div class="mb-2 d-flex w-50">
+                <form [formGroup]="filterFormAsignacion" class="w-100">
+                    <input class=" w-100 shadow-sm form-control rounded-pill"
+                           fxFlex="auto"
+                           type="text"
+                           formControlName="filterAsign"
+                           #filterAsign
+                           id="filterAsign"
+                           (keyup)="filterAsignacionAcademicoAulasProfesor()"
+                           placeholder="Búsqueda de asignaciones educativas...">
+                </form>
+                &nbsp;
+                <div>
+                    <button (click)="showFormCreateAsignacion = !showFormCreateAsignacion" 
+                        class="btn btn-outline-dark shadow-sm rounded-pill d-flex align-items-center">
+                        <mat-icon>
+                            add_circle
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+          </div>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-secondary align-middle" >
+                <thead class="bg-dark text-light" >
+                    <th>Nombre Aula Educativa</th>
+                    <th>Nombre Profesor</th>
+                    <th>Nombre Materia</th>
+                    <th>Observación</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let listAsign of listaAsignacionAcademicoAulasProfesor; let i = index;">
+                        <td>
+                            {{listAsign.nombreAulaEducativa}}
+                        </td>
+                        <td>
+                            {{listAsign.nombreProfesor}}
+                        </td>
+                        <td>
+                            {{listAsign.nombreMateria}}
+                        </td>
+                        <td>
+                            {{listAsign.observacion}}
+                        </td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="button-icon shadow-sm"
+                                     (click)="catchDataAsignacion(listAsign)">
+                                     <mat-icon>edit</mat-icon>
+                                </div>
+                                <div class="button-icon shadow-sm"
+                                     (click)="eliminarAsignacionAcademicoAulasProfesor(listAsign.id, i)">
+                                     <mat-icon>delete</mat-icon>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
 </div>
